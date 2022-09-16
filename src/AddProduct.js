@@ -6,19 +6,21 @@ const AddProduct = (props) => {
 
     const handleInput = (event) => {
         setProduct(event.target.value)
+        
     }
 
     const lisaa = (event) => {
         event.preventDefault()
         addNew(product).then((result) => {
             props.onProductAdded(result.data)
+            setProduct('')
         })
     }
 
     return (
         <div>
             <form onSubmit={lisaa}>
-                <input onChange={handleInput}></input>
+                <input value={product} onChange={handleInput}></input>
                 <button type="submit">Lisää</button>
             </form>
         </div>
