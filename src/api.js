@@ -7,3 +7,20 @@ export const getList = () => {
         url:"lista"
     })
 }
+
+export const addNew = (product) =>{
+    return request({
+        method:"POST",
+        url:"lista/",
+        data: {
+            product: product
+        }
+    })
+}
+
+export const deleteOld = (id) => {
+    return request ({
+        method:"DELETE",
+        url:"lista/id",
+    })
+}

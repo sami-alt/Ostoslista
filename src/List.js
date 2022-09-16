@@ -1,32 +1,20 @@
 import { getList } from "./api"
 import React, { useEffect, useState } from "react"
-
-/*
-const testiLista = [
-    {id:1 , t: 'Kananmunia'},
-    {id:2, t:'Meetwursti'},
-    {id:3, t:'Maito'}
-]
-*/
+import Delete from "./delete"
 
 
 
-
-
-
-
-const List = () => {
+const List = (props) => {
     const [proList, setproList] = useState([])
     const getLista = () => {
         (
             getList().then((response) => setproList(response.data))
-
         )
     }
     useEffect(() => {
         getLista()
     }, [])
-    const lista = proList.map((tuote) => <li key={tuote.id}> {tuote.t}</li>)
+    const lista = proList.concat(props.newProducts).map((tuote) => <li key={tuote.id}> {tuote.product}<Delete/></li>)
 
     return (
         <div>{lista}</div>
