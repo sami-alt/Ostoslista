@@ -1,11 +1,22 @@
 import { deleteOld } from "./api"
 
 
-const Delete = () =>{
+const Delete = (props) =>{
+
+ const poista = (event) =>{
+    event.preventDefault()
+    deleteOld(props.id).then((result)=>{
+        props.onProductDelete(result.data)
+        console.log(result.data)
+    })
+ }   
+
 
 return (
     <div>
-    <button>Poista</button>
+        <form onSubmit={poista} >
+    <button type='submit'>Poista</button>
+    </form>
     </div>
 )
 

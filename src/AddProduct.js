@@ -16,12 +16,11 @@ const AddProduct = (props) => {
     }
 
     return (
-        <div><form onSubmit={lisaa}>
-            <input
-                onChange={handleInput}   ></input>
-            <button type="submit">Lisää</button>
-        </form>
-
+        <div>
+            <form onSubmit={lisaa}>
+                <input onChange={handleInput}></input>
+                <button type="submit">Lisää</button>
+            </form>
         </div>
     )
 }

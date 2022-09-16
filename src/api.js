@@ -21,6 +21,6 @@ export const addNew = (product) =>{
 export const deleteOld = (id) => {
     return request ({
         method:"DELETE",
-        url:"lista/id",
+        url:"lista/" + id,
     })
 }

@@ -1,10 +1,11 @@
 import { getList } from "./api"
 import React, { useEffect, useState } from "react"
 import Delete from "./delete"
+import AddProduct from "./AddProduct";
 
 
 
-const List = (props) => {
+const List = () => {
     const [proList, setproList] = useState([])
     const getLista = () => {
         (
@@ -14,10 +15,19 @@ const List = (props) => {
     useEffect(() => {
         getLista()
     }, [])
-    const lista = proList.concat(props.newProducts).map((tuote) => <li key={tuote.id}> {tuote.product}<Delete/></li>)
+    const lista = proList.map((tuote) => (
+        <li key={tuote.id}>
+            {tuote.product}
+            <Delete onProductDelete={getLista} id={tuote.id} />
+        </li>
+    ))
+
 
     return (
-        <div>{lista}</div>
+        <div>
+            {lista}
+            <AddProduct onProductAdded={getLista} />
+        </div>
     )
 }
 

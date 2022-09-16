@@ -1,16 +1,16 @@
 {
   "lista": [
     {
-      "product": "Kaakao",
-      "id": "1"
+      "product": "bbbb",
+      "id": 1
     },
     {
-      "product": "Maitoa",
-      "id": "vhweSGu"
+      "product": "bb",
+      "id": 2
     },
     {
-      "product": "Meetwurstia",
-      "id": "efaR_Ir"
+      "product": "bb",
+      "id": 3
     }
   ]
 }
