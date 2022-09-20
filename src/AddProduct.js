@@ -2,11 +2,10 @@ import { useState } from "react"
 import { addNew } from "./api"
 
 const AddProduct = (props) => {
-    const [product, setProduct] = useState(null)
+    const [product, setProduct] = useState('')
 
     const handleInput = (event) => {
         setProduct(event.target.value)
-        
     }
 
     const lisaa = (event) => {

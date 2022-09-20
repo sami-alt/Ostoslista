@@ -3,15 +3,15 @@ import request from "./request"
 
 export const getList = () => {
     return request({
-        method:"GET",
-        url:"lista"
+        method: "GET",
+        url: "lista"
     })
 }
 
-export const addNew = (product) =>{
+export const addNew = (product) => {
     return request({
-        method:"POST",
-        url:"lista/",
+        method: "POST",
+        url: "lista/",
         data: {
             product: product
         }
@@ -19,8 +19,16 @@ export const addNew = (product) =>{
 }
 
 export const deleteOld = (id) => {
-    return request ({
-        method:"DELETE",
-        url:"lista/" + id,
+    return request({
+        method: "DELETE",
+        url: "lista/" + id,
+    })
+}
+
+export const updateProduct = (id,patch) =>{
+    return request({
+        method: "PUT",
+        url:"list/" + id,
+        data: patch
     })
 }
