@@ -14,6 +14,7 @@ const List = () => {
     useEffect(() => {
         getLista()
     }, [])
+
     const onProductChange = (tuote, event) => {
         const newList = proList.map(originalTuote => {
             if (tuote.id === originalTuote.id) {
@@ -29,7 +30,6 @@ const List = () => {
             'old list', proList,
             'new list', newList
         )
-
         setproList(newList)
     }
     const lista = proList.map((tuote) => (

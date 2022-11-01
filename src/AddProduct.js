@@ -9,11 +9,15 @@ const AddProduct = (props) => {
     }
 
     const lisaa = (event) => {
-        event.preventDefault()
-        addNew(product).then((result) => {
-            props.onProductAdded(result.data)
-            setProduct('')
-        })
+        if (product === '') {
+            return alert('Kirjoita tuote')
+        } else {
+            event.preventDefault()
+            addNew(product).then((result) => {
+                props.onProductAdded(result.data)
+                setProduct('')
+            })
+        }
     }
 
     return (
