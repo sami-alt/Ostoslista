@@ -28,7 +28,7 @@ export const deleteOld = (id) => {
 export const updateProduct = (id,patch) =>{
     return request({
         method: "PUT",
-        url:"list/" + id,
+        url:"lista/" + id,
         data: patch
     })
 }

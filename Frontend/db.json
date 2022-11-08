@@ -1,0 +1,24 @@
+{
+  "lista": [
+    {
+      "product": "Kananmuniaan",
+      "id": 1
+    },
+    {
+      "product": "Jauhoja",
+      "id": 2
+    },
+    {
+      "product": "Leipää",
+      "id": 3
+    },
+    {
+      "product": "Meetvurstia",
+      "id": 4
+    },
+    {
+      "product": "Salaattia",
+      "id": 5
+    }
+  ]
+}

@@ -1,8 +1,7 @@
-import {getList} from "./api"
+import {getList, updateProduct} from "./api"
 import React, { useEffect, useState } from "react"
 import Delete from "./delete"
 import AddProduct from "./AddProduct";
-import Update from "./update"
 
 const List = () => {
     const [proList, setproList] = useState([])
@@ -18,10 +17,14 @@ const List = () => {
     const onProductChange = (tuote, event) => {
         const newList = proList.map(originalTuote => {
             if (tuote.id === originalTuote.id) {
-                return {
+                const newTuote = {
                     ...tuote,
                     product: event.target.value,
                 }
+
+                updateProduct(tuote.id, {product: newTuote.product})
+
+                return newTuote
             } else {
                 return originalTuote
             }
@@ -32,11 +35,11 @@ const List = () => {
         )
         setproList(newList)
     }
+
     const lista = proList.map((tuote) => (
         <li key={tuote.id}>
             <input defaultValue={tuote.product} onBlur={(event) => onProductChange(tuote, event)}></input>
             <Delete onProductDelete={getLista} id={tuote.id} />
-            <Update />
         </li>
     ))
 
