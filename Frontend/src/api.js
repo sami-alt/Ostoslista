@@ -32,3 +32,4 @@ export const updateProduct = (id,patch) =>{
         data: patch
     })
 }
+

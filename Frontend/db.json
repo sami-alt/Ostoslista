@@ -1,7 +1,7 @@
 {
   "lista": [
     {
-      "product": "Kananmuniaan",
+      "product": "Kananmuna",
       "id": 1
     },
     {
@@ -9,16 +9,16 @@
       "id": 2
     },
     {
-      "product": "Leipää",
-      "id": 3
-    },
-    {
-      "product": "Meetvurstia",
-      "id": 4
-    },
-    {
       "product": "Salaattia",
       "id": 5
+    },
+    {
+      "product": "Jauhoja",
+      "id": 6
+    },
+    {
+      "product": "Makkara",
+      "id": 7
     }
   ]
 }

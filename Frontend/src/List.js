@@ -2,6 +2,7 @@ import {getList, updateProduct} from "./api"
 import React, { useEffect, useState } from "react"
 import Delete from "./delete"
 import AddProduct from "./AddProduct";
+import "./tyyli.css"
 
 const List = () => {
     const [proList, setproList] = useState([])
@@ -38,14 +39,16 @@ const List = () => {
 
     const lista = proList.map((tuote) => (
         <li key={tuote.id}>
-            <input defaultValue={tuote.product} onBlur={(event) => onProductChange(tuote, event)}></input>
+            
+            <input className="viewable" defaultValue={tuote.product} onBlur={(event) => onProductChange(tuote, event)}></input>
             <Delete onProductDelete={getLista} id={tuote.id} />
+            
         </li>
     ))
 
     return (
         <div>
-            {lista}
+            <ol>{lista}</ol>
             <AddProduct onProductAdded={getLista} />
         </div>
     )
