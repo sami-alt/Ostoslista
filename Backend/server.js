@@ -35,7 +35,7 @@ app.get('/lista/:id', (req, res) => {
 })
 
 app.post('/list/:id'), (req, res) => {
-    const id =
+    const id = 1
 
 }
 
