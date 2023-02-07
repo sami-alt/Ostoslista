@@ -1,45 +1,31 @@
 const express = require('express')
 const app = express()
-const bodyParser = require('body-parser') 
+const bodyParser = require('body-parser')
+const fs = require('fs')
+const cors = require('cors')
+
+const getLista = () =>
+    JSON.parse(fs.readFileSync('./db.json', 'utf8')).lista
+const saveLista = (newLista) =>
+    fs.writeFileSync('./db.json', JSON.stringify({lista: newLista}, null, 2))
+
+app.use(cors())
 app.use(bodyParser.json())
-
-let lista = [
-    {
-        product: "Kananmuna",
-        id: 1
-    },
-    {
-        product: "Jauhoja",
-        id: 2
-    },
-    {
-        product: "Salaattia",
-        id: 5
-    },
-    {
-        product: "Jauhoja",
-        id: 6
-    },
-    {
-        product: "Makkara",
-        id: 7
-    }
-]
-
 
 app.get('/', (req, res) => {
     res.send('Ostoslista')
 })
 
-app.get('/ostoslista', (req, res) => {
-    res.json(lista)
+app.get('/lista', (req, res) => {
+    res.json(getLista())
 })
 
-app.get('/ostoslista/:id', (req, res) => {
+app.get('/lista/:id', (req, res) => {
     const id = Number(req.params.id)
     console.log(id)
-    const prod = lista.find(prod =>  prod.id === id
-    )
+    const lista = getLista()
+    console.log(lista)
+    const prod = lista.find(prod => prod.id === id)
     console.log(prod)
     if (prod) {
         res.json(prod)
@@ -48,10 +34,17 @@ app.get('/ostoslista/:id', (req, res) => {
     }
 })
 
-app.delete('/ostoslista/:id', (req, res) => {
+app.post('/list/:id'), (req, res) => {
+    const id =
+
+}
+
+app.delete('/lista/:id', (req, res) => {
     const id = Number(req.params.id)
     console.log(id)
+    let lista = getLista()
     lista = lista.filter(prod => prod.id !== id)
+    saveLista(lista)
     console.log(lista)
     res.status(204).send(null).end()
 })
