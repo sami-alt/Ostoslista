@@ -30,10 +30,11 @@ const List = () => {
                 return originalTuote
             }
         })
-        console.log(
+       /* console.log(
             'old list', proList,
             'new list', newList
         )
+        */
         setproList(newList)
     }
 

@@ -1,12 +1,8 @@
 {
   "lista": [
     {
-      "product": "Kananmuna",
+      "product":"Leipää",
       "id": 1
-    },
-    {
-      "product": "Jauhoja",
-      "id": 2
     },
     {
       "product": "Salaattia",
@@ -15,10 +11,6 @@
     {
       "product": "Jauhoja",
       "id": 6
-    },
-    {
-      "product": "Makkara",
-      "id": 7
     }
   ]
 }
