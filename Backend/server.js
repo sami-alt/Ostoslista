@@ -3,7 +3,6 @@ const app = express()
 const bodyParser = require('body-parser')
 const fs = require('fs')
 const cors = require('cors')
-//import { generateID } from './idGen'
 
 const getLista = () =>
     JSON.parse(fs.readFileSync('./db.json', 'utf8')).lista
@@ -18,17 +17,13 @@ app.get('/', (req, res) => {
 })
 
 app.get('/lista', (req, res) => {
-    console.log('getttt')
     res.json(getLista())
 })
 
 app.get('/lista/:id', (req, res) => {
     const id = Number(req.params.id)
-    console.log(id)
     const lista = getLista()
-    console.log(lista)
     const prod = lista.find(prod => prod.id === id)
-    console.log(prod)
     if (prod) {
         res.json(prod)
     } else {
@@ -36,24 +31,42 @@ app.get('/lista/:id', (req, res) => {
     }
 })
 
-app.post('/lista/'),(req, res) => {
+app.post('/lista/',(req, res) => {
     let lista = getLista()
-    //req.id = generateID(lista).JSON.stringify()
-}
+    console.log('lista 1',lista)
+    const generateID = () =>{
+        let listLenght;
+        if(lista.length < 1){
+            listLenght = 0
+        } else {
+            listLenght = lista.map(n => n.id).sort((a,b)=> a - b).reverse()[0]
+        }
+        return listLenght + 1
+    }
+    
+    const product = {
+        product: req.body.product,
+        id : generateID(lista)
+    }
+    console.log(generateID(lista))
+    lista = lista.concat(product)
+    saveLista(lista)
+    res.json(saveLista(lista))
+    console.log(lista)
+    
+})
 
 app.put('/lista/:id', (req, res) => {
-    console.log('aaabababa')
     const id = Number(req.params.id)
     let lista = getLista()
     const prodToChange = lista.find(prod => prod.id === id)
     if (!prodToChange) {
-        console.log(lista, id)
         res.status(404).end()
         return
     }
     Object.assign(prodToChange, req.body)
     saveLista(lista)
-    res.json(prod)
+    res.json(prodToChange)
 
 })
 
