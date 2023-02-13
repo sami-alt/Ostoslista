@@ -1,10 +1,12 @@
 import {getList, updateProduct} from "./api"
 import React, { useEffect, useState } from "react"
+import List from '@mui/material/List' 
+import { ListItem } from "@mui/material"
 import Delete from "./delete"
 import AddProduct from "./AddProduct";
 import "./tyyli.css"
 
-const List = () => {
+const ListComponent = () => {
     const [proList, setproList] = useState([])
     const getLista = () => {
         (
@@ -39,20 +41,20 @@ const List = () => {
     }
 
     const lista = proList.map((tuote) => (
-        <li key={tuote.id}>
+        <ListItem key={tuote.id}>
             
             <input className="viewable" defaultValue={tuote.product} onBlur={(event) => onProductChange(tuote, event)}></input>
             <Delete onProductDelete={getLista} id={tuote.id} />
             
-        </li>
+        </ListItem>
     ))
 
     return (
-        <div>
-            <ol>{lista}</ol>
+        <List>
+            <ul>{lista}</ul>
             <AddProduct onProductAdded={getLista} />
-        </div>
+        </List>
     )
 }
 
-export default List
+export default ListComponent

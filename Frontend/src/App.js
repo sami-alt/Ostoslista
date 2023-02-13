@@ -1,10 +1,10 @@
-import List from "./List";
+import ListComponent from "./List";
 
 function App() {
   return (
     <div>
       Ostoslista
-      <List />
+      <ListComponent />
     </div>
   );
 }
