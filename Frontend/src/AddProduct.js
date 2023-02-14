@@ -3,6 +3,8 @@ import { addNew } from "./api"
 import AddShoppingCarIcon from '@mui/icons-material/AddShoppingCart'
 import { Stack } from "@mui/system"
 import { IconButton } from "@mui/material"
+import Box from "@mui/material/Box"
+import TextField from "@mui/material/TextField"
 
 const AddProduct = (props) => {
     const [product, setProduct] = useState('')
@@ -25,12 +27,14 @@ const AddProduct = (props) => {
 
     return (
         <Stack direction='row' spacing={3}>
-            <IconButton color='primary' size='small'>
-            <form onSubmit={lisaa}>
-                <input value={product} onChange={handleInput}></input>
-                <button type="submit"><AddShoppingCarIcon></AddShoppingCarIcon></button>
-            </form>
-            </IconButton>
+           
+            <Box component="form" onSubmit={lisaa}>
+                <TextField id="outlined-basic" label="Lisää" variant="outlined" value={product} onChange={handleInput}></TextField>
+                <IconButton color='primary' size='large'  type="submit">
+                <AddShoppingCarIcon></AddShoppingCarIcon>
+                </IconButton>
+            </Box>
+            
         </Stack>
     )
 }
