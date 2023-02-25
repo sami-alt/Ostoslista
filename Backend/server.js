@@ -4,10 +4,21 @@ const bodyParser = require('body-parser')
 const fs = require('fs')
 const cors = require('cors')
 
-const getLista = () =>
-    JSON.parse(fs.readFileSync('./db.json', 'utf8')).lista
-const saveLista = (newLista) =>
-    fs.writeFileSync('./db.json', JSON.stringify({lista: newLista}, null, 2))
+const getLista = () =>{
+    try {
+    const contets = fs.readFileSync('./db.json', 'utf8')
+  
+  if(!contets){
+    return []
+  }
+   return JSON.parse(contets).lista
+  } catch(error) {
+    console.error(error)
+    return []
+    }
+}
+
+const saveLista = (newLista) => fs.writeFileSync('./db.json', JSON.stringify({lista: newLista}, null, 2))
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -33,7 +44,6 @@ app.get('/lista/:id', (req, res) => {
 
 app.post('/lista/',(req, res) => {
     let lista = getLista()
-    console.log('lista 1',lista)
     const generateID = () =>{
         let listLenght;
         if(lista.length < 1){
@@ -43,17 +53,13 @@ app.post('/lista/',(req, res) => {
         }
         return listLenght + 1
     }
-    
     const product = {
         product: req.body.product,
         id : generateID(lista)
     }
-    console.log(generateID(lista))
     lista = lista.concat(product)
     saveLista(lista)
-    res.json(saveLista(lista))
-    console.log(lista)
-    
+    res.json(lista)
 })
 
 app.put('/lista/:id', (req, res) => {
