@@ -31,7 +31,7 @@ const AddProduct = (props) => {
             <Box component="form" onSubmit={lisaa}>
                 <TextField id="outlined-basic" label="Lisää" variant="outlined" value={product} onChange={handleInput}></TextField>
                 <IconButton color='primary' size='large'  type="submit">
-                <AddShoppingCarIcon></AddShoppingCarIcon>
+                <AddShoppingCarIcon/>
                 </IconButton>
             </Box>
             
