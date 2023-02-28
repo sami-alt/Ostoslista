@@ -1,8 +1,7 @@
 import {getList, updateProduct} from "./api"
 import React, { useEffect, useState } from "react"
 import List from '@mui/material/List' 
-import { ListItem } from "@mui/material"
-import TextField from "@mui/material/TextField"
+import { ListItem, TextField } from "@mui/material"
 import Delete from "./delete"
 import AddProduct from "./AddProduct";
 
@@ -32,25 +31,30 @@ const ListComponent = () => {
                 return originalTuote
             }
         })
+    
         setproList(newList)
+    }
+
+    const alteredList = (newProduct) => {
+        console.log('alteredlist', newProduct)
+        const newList = proList.concat(newProduct)
+        return setproList(newList)
     }
 
     const lista = proList.map((tuote) => (
         <ListItem key={tuote.id}>
-            <TextField  defaultValue={tuote.product} onBlur={(event) => onProductChange(tuote, event)}></TextField>
+            <TextField className="viewable" defaultValue={tuote.product} onBlur={(event) => onProductChange(tuote, event)}></TextField>
             <Delete onProductDelete={getLista} id={tuote.id} />
         </ListItem>
     ))
 
     return (
         <List>
-            <ul>
-                {lista}
-                <ListItem>
-                <AddProduct onProductAdded={getLista} />
-                </ListItem>
+            <ul>{lista}
+            <ListItem>
+            <AddProduct onProductAdded={alteredList} />
+            </ListItem>
             </ul>
-            
         </List>
     )
 }
