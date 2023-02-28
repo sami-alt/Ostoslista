@@ -6,7 +6,7 @@ const Delete = (props) => {
     const poista = (event) => {
         event.preventDefault()
         deleteOld(props.id).then((result) => {
-            props.onProductDelete(result.data)
+            props.onProductDelete(props.id)
         })
     }
     return (
