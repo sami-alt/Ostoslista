@@ -4,6 +4,8 @@ import List from '@mui/material/List'
 import { ListItem, TextField } from "@mui/material"
 import Delete from "./delete"
 import AddProduct from "./AddProduct";
+import Checkbox from "@mui/material/Checkbox"
+import "./style.css"
 
 const ListComponent = () => {
     const [proList, setproList] = useState([])
@@ -45,14 +47,14 @@ const ListComponent = () => {
         console.log("alteredListDel", id)
         const newList = proList.filter(deletedProduct => deletedProduct.id === id)
          return setproList(newList)
-            
         }
         
     
 
     const lista = proList.map((tuote) => (
         <ListItem key={tuote.id}>
-            <TextField className="viewable" defaultValue={tuote.product} onBlur={(event) => onProductChange(tuote, event)}></TextField>
+            <TextField className="text-field" defaultValue={tuote.product} onBlur={(event) => onProductChange(tuote, event)}></TextField>
+            <Checkbox className="check-box"></Checkbox>
             <Delete onProductDelete={alteredListDel} id={tuote.id} />
         </ListItem>
     ))

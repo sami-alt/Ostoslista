@@ -1,0 +1,32 @@
+
+
+
+.body {
+    background-color:#6495ED;
+    display: flex;
+    min-width: 300px;
+}
+
+.button {
+    background-color: grey;
+}
+
+.check-box {
+    color:white;
+
+}
+
+.text-field {
+    background-color: white;
+    width: 70%;
+    
+    right: 10px;
+}
+
+.input-text-field {
+    background-color: white;
+    
+    width: 70%;
+    right: 10px;
+    display: flex;
+}
