@@ -1,20 +1,16 @@
 {
   "lista": [
     {
-      "product": "Meetwursti",
-      "id": 7
+      "product": "1",
+      "id": 1
     },
     {
-      "product": "Hot wings",
-      "id": 8
+      "product": "2",
+      "id": 2
     },
     {
-      "product": "Banaani",
-      "id": 9
-    },
-    {
-      "product": "Maito",
-      "id": 10
+      "product": "4",
+      "id": 4
     }
   ]
 }

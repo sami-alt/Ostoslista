@@ -59,7 +59,7 @@ app.post('/lista/',(req, res) => {
     }
     lista = lista.concat(product)
     saveLista(lista)
-    res.json(lista)
+    res.json(product)
 })
 
 app.put('/lista/:id', (req, res) => {

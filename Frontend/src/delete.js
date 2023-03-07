@@ -1,6 +1,7 @@
 import { deleteOld } from "./api"
 import "./style.css"
-import  IconButton  from "@mui/material/IconButton"
+import  Button  from "@mui/material/Button"
+//import  IconButton  from "@mui/material/IconButton"
 import DeleteIcon from "@mui/icons-material/Delete"
 
 const Delete = (props) => {
@@ -11,9 +12,7 @@ const Delete = (props) => {
         })
     }
     return (
-            <IconButton onClick={poista} aria-label="delete">
-                    <DeleteIcon className="button" />
-            </IconButton>
+            <Button variant="contained" onClick={poista} startIcon={<DeleteIcon/>}></Button>
     )
 }
 

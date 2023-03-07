@@ -26,7 +26,7 @@ const AddProduct = (props) => {
 
     return (
             <Fragment>
-                <TextField className="input-text-field" id="outlined-basic" label="Lisää" variant="outlined" value={product} onChange={handleInput}></TextField>
+                <TextField className="input-text-field" id="outlined-basic, margin-dense" label="Lisää" variant="outlined" margin="normal" value={product} onChange={handleInput}></TextField>
                 <IconButton className="button" color='primary' size='large'  type="submit" onClick={lisaa}>
                 <AddShoppingCarIcon className=""/>
                 </IconButton>

@@ -4,7 +4,7 @@ import List from '@mui/material/List'
 import { ListItem, TextField } from "@mui/material"
 import Delete from "./delete"
 import AddProduct from "./AddProduct";
-import Checkbox from "@mui/material/Checkbox"
+import Button from "@mui/material/Button"
 import "./style.css"
 
 const ListComponent = () => {
@@ -43,9 +43,10 @@ const ListComponent = () => {
         return setproList(newList)
     }
 
-    const alteredListDel = (id) => {
-        console.log("alteredListDel", id)
-        const newList = proList.filter(deletedProduct => deletedProduct.id === id)
+    const alteredListDel = (deletedId) => {
+        //console.log("alteredListDel", id)
+        const newList = proList.filter(product => product.id !== deletedId)
+        console.log(newList)
          return setproList(newList)
         }
         
@@ -54,14 +55,14 @@ const ListComponent = () => {
     const lista = proList.map((tuote) => (
         <ListItem key={tuote.id}>
             <TextField className="text-field" defaultValue={tuote.product} onBlur={(event) => onProductChange(tuote, event)}></TextField>
-            <Checkbox className="check-box"></Checkbox>
+            <Button variant="contained" sx={{fontSize: 8}} size="small" >In basket</Button>
             <Delete onProductDelete={alteredListDel} id={tuote.id} />
         </ListItem>
     ))
 
     return (
         <List>
-            <ul>{lista}
+            <ul className="list">{lista}
             <ListItem>
             <AddProduct onProductAdded={alteredListNew} />
             </ListItem>
