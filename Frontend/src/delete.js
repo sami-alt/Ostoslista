@@ -12,7 +12,7 @@ const Delete = (props) => {
         })
     }
     return (
-            <Button variant="contained" onClick={poista} startIcon={<DeleteIcon/>}></Button>
+            <Button variant="contained" size="small" onClick={poista} startIcon={<DeleteIcon/>}></Button>
     )
 }
 

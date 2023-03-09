@@ -6,6 +6,7 @@ import Delete from "./delete"
 import AddProduct from "./AddProduct";
 import Button from "@mui/material/Button"
 import "./style.css"
+import CheckIcon from "@mui/icons-material/Check"
 
 const ListComponent = () => {
     const [proList, setproList] = useState([])
@@ -37,6 +38,24 @@ const ListComponent = () => {
         setproList(newList)
     }
 
+    const handleDone = (prodDone, event) => {
+        console.log( prodDone)
+        const newList = proList.map(prod => {
+            if(prodDone.id === prod.id){
+                const doneProd = {
+                    ...prod,
+                    done : true
+                }
+                updateProduct(prodDone.id, {done: doneProd.done})
+                return doneProd
+            } else {
+                return prod
+            }
+        })
+        console.log(prodDone.done)
+        setproList(newList)
+    } 
+
     const alteredListNew = (newProduct) => {
         console.log('alteredListNew', newProduct)
         const newList = proList.concat(newProduct)
@@ -44,18 +63,17 @@ const ListComponent = () => {
     }
 
     const alteredListDel = (deletedId) => {
-        //console.log("alteredListDel", id)
         const newList = proList.filter(product => product.id !== deletedId)
         console.log(newList)
          return setproList(newList)
         }
-        
-    
 
     const lista = proList.map((tuote) => (
         <ListItem key={tuote.id}>
-            <TextField className="text-field" defaultValue={tuote.product} onBlur={(event) => onProductChange(tuote, event)}></TextField>
-            <Button variant="contained" sx={{fontSize: 8}} size="small" >In basket</Button>
+            <TextField className="text-field" style={{
+                textDecoration: tuote.done === true ? 'line-through' : 'none',
+            }} defaultValue={tuote.product} onBlur={(event) => onProductChange(tuote, event)}></TextField>
+            <Button variant="contained"  size="small" id={tuote.id} onClick={(event => handleDone(tuote, event))} startIcon={<CheckIcon/>}  > </Button>
             <Delete onProductDelete={alteredListDel} id={tuote.id} />
         </ListItem>
     ))
