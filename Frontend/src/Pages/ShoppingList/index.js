@@ -8,7 +8,7 @@ import Button from "@mui/material/Button"
 import CheckIcon from "@mui/icons-material/Check"
 
 
-const ListComponent = () => {
+const ListComponent = (props) => {
     const [proList, setproList] = useState([])
     const getLista = () => {
         (
@@ -80,7 +80,7 @@ const ListComponent = () => {
         <List>
             <ul>{list}
             <ListItem>
-            <AddProduct onProductAdded={alteredListNew} />
+            <AddProduct onProductAdded={alteredListNew} setAlertState={props.setAlertState} />
             </ListItem>
             </ul>
         </List>

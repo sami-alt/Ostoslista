@@ -5,8 +5,10 @@ import {IconButton } from "@mui/material"
 import TextField from "@mui/material/TextField"
 
 
+
 const AddProduct = (props) => {
     const [product, setProduct] = useState('')
+    
 
     const handleInput = (event) => {
         setProduct(event.target.value)
@@ -14,22 +16,25 @@ const AddProduct = (props) => {
 
     const lisaa = (event) => {
         if (product === '') {
-            return alert('Kirjoita tuote')
+            props.setAlertState(true)
+            return 
         } else {
             event.preventDefault()
             addNew(product).then((result) => {
                 props.onProductAdded(result.data)
                 setProduct('')
+                props.setAlertState(null)
             })
         }
     }
 
     return (
             <Fragment>
-                <TextField className="input-text-field" id="outlined-basic, margin-dense" label="Lisää" variant="outlined" margin="normal" value={product} onChange={handleInput}></TextField>
+                <TextField className="input-text-field" id="outlined-basic, margin-dense" label="Lisää" variant="filled"   value={product} onChange={handleInput}></TextField>
                 <IconButton className="button" color='primary' size='large'  type="submit" onClick={lisaa}>
                 <AddShoppingCarIcon/>
                 </IconButton>
+                
             </Fragment>
     )
 }

@@ -1,8 +1,8 @@
 
-.body {
+body {
     background: repeating-linear-gradient(-45deg, rgb(51,49,49), black 1px);
     display: flex;
-    min-width: 300px;
+    min-width: 100hv;
     min-height: 100vh;
 }
 
