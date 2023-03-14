@@ -22,24 +22,23 @@ const ListComponent = () => {
     const onProductChange = (tuote, event) => {
         const newList = proList.map(originalTuote => {
             if (tuote.id === originalTuote.id) {
+                const changes = {product: event.target.value, done: false}
                 const newTuote = {
                     ...tuote,
-                    product: event.target.value,
+                    ...changes,
                 }
 
-                updateProduct(tuote.id, {product: newTuote.product})
+                updateProduct(tuote.id, changes)
 
                 return newTuote
             } else {
                 return originalTuote
             }
         })
-    
         setproList(newList)
     }
 
-    const handleDone = (prodDone, event) => {
-        console.log( prodDone)
+    const handleDone = (prodDone) => {
         const newList = proList.map(prod => {
             if(prodDone.id === prod.id){
                 const doneProd = {
@@ -52,35 +51,32 @@ const ListComponent = () => {
                 return prod
             }
         })
-        console.log(prodDone.done)
         setproList(newList)
     } 
 
     const alteredListNew = (newProduct) => {
-        console.log('alteredListNew', newProduct)
         const newList = proList.concat(newProduct)
         return setproList(newList)
     }
 
     const alteredListDel = (deletedId) => {
         const newList = proList.filter(product => product.id !== deletedId)
-        console.log(newList)
-         return setproList(newList)
-        }
+        return setproList(newList)
+    }
 
-    const lista = proList.map((tuote) => (
-        <ListItem key={tuote.id}>
+    const list = proList.map((product) => (
+        <ListItem key={product.id}>
             <TextField className="text-field" style={{
-                textDecoration: tuote.done === true ? 'line-through' : 'none',
-            }} defaultValue={tuote.product} onBlur={(event) => onProductChange(tuote, event)}></TextField>
-            <Button variant="contained"  size="small" id={tuote.id} onClick={(event => handleDone(tuote, event))} startIcon={<CheckIcon/>}  > </Button>
-            <Delete onProductDelete={alteredListDel} id={tuote.id} />
+                textDecoration: product.done === true ? 'line-through' : 'none',
+            }} defaultValue={product.product} onBlur={(event) => onProductChange(product, event)}></TextField>
+            <Button variant="contained"  size="small" id={product.id} onClick={(event => handleDone(product, event))} startIcon={<CheckIcon/>}  > </Button>
+            <Delete onProductDelete={alteredListDel} id={product.id} />
         </ListItem>
     ))
 
     return (
         <List>
-            <ul className="list">{lista}
+            <ul>{list}
             <ListItem>
             <AddProduct onProductAdded={alteredListNew} />
             </ListItem>

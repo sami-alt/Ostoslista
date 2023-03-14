@@ -1,13 +1,12 @@
 import { deleteOld } from "./api"
 import "./style.css"
 import  Button  from "@mui/material/Button"
-//import  IconButton  from "@mui/material/IconButton"
 import DeleteIcon from "@mui/icons-material/Delete"
 
 const Delete = (props) => {
     const poista = (event) => {
         event.preventDefault()
-        deleteOld(props.id).then((result) => {
+        deleteOld(props.id).then(() => {
             props.onProductDelete(props.id)
         })
     }

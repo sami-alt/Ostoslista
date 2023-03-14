@@ -55,10 +55,12 @@ app.post('/lista/',(req, res) => {
     }
     const product = {
         product: req.body.product,
-        id : generateID(lista)
+        id : generateID(lista),
+        done: false
     }
     lista = lista.concat(product)
     saveLista(lista)
+    console.log(product)
     res.json(product)
 })
 
@@ -73,7 +75,6 @@ app.put('/lista/:id', (req, res) => {
     Object.assign(prodToChange, req.body)
     saveLista(lista)
     res.json(prodToChange)
-
 })
 
 app.delete('/lista/:id', (req, res) => {
