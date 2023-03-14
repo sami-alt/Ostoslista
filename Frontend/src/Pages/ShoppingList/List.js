@@ -1,12 +1,12 @@
-import {getList, updateProduct} from "./api"
+import {getList, updateProduct} from "../../Api/api"
 import React, { useEffect, useState } from "react"
 import List from '@mui/material/List' 
-import { ListItem, TextField } from "@mui/material"
+import { ButtonGroup, ListItem, TextField } from "@mui/material"
 import Delete from "./delete"
 import AddProduct from "./AddProduct";
 import Button from "@mui/material/Button"
-import "./style.css"
 import CheckIcon from "@mui/icons-material/Check"
+
 
 const ListComponent = () => {
     const [proList, setproList] = useState([])
@@ -69,8 +69,10 @@ const ListComponent = () => {
             <TextField className="text-field" style={{
                 textDecoration: product.done === true ? 'line-through' : 'none',
             }} defaultValue={product.product} onBlur={(event) => onProductChange(product, event)}></TextField>
+            <ButtonGroup>
             <Button variant="contained"  size="small" id={product.id} onClick={(event => handleDone(product, event))} startIcon={<CheckIcon/>}  > </Button>
             <Delete onProductDelete={alteredListDel} id={product.id} />
+            </ButtonGroup>
         </ListItem>
     ))
 

@@ -1,4 +1,4 @@
-import ListComponent from "./List";
+import ListComponent from "./Pages/ShoppingList/List";
 import  "./style.css";
 
 function App() {

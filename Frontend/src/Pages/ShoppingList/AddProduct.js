@@ -1,9 +1,9 @@
 import { Fragment, useState } from "react"
-import { addNew } from "./api"
+import { addNew } from "../../Api/api"
 import AddShoppingCarIcon from '@mui/icons-material/AddShoppingCart'
 import {IconButton } from "@mui/material"
 import TextField from "@mui/material/TextField"
-import"./style.css"
+
 
 const AddProduct = (props) => {
     const [product, setProduct] = useState('')
@@ -28,7 +28,7 @@ const AddProduct = (props) => {
             <Fragment>
                 <TextField className="input-text-field" id="outlined-basic, margin-dense" label="Lisää" variant="outlined" margin="normal" value={product} onChange={handleInput}></TextField>
                 <IconButton className="button" color='primary' size='large'  type="submit" onClick={lisaa}>
-                <AddShoppingCarIcon className=""/>
+                <AddShoppingCarIcon/>
                 </IconButton>
             </Fragment>
     )
