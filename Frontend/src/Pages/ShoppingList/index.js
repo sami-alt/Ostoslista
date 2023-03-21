@@ -1,4 +1,4 @@
-import {getList, updateProduct} from "../../Api/api"
+import {getList, updateProduct} from "../../Api/listApi"
 import React, { useEffect, useState } from "react"
 import List from '@mui/material/List' 
 import { ButtonGroup, ListItem, TextField } from "@mui/material"
