@@ -60,7 +60,6 @@ app.post('/lista/',(req, res) => {
     }
     lista = lista.concat(product)
     saveLista(lista)
-    console.log(product)
     res.json(product)
 })
 
