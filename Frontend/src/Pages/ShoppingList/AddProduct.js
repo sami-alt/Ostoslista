@@ -16,14 +16,14 @@ const AddProduct = (props) => {
 
     const lisaa = (event) => {
         if (product === '') {
-            props.setAlertState(true)
+            alert('Kirjoita tuote')
             return 
         } else {
             event.preventDefault()
             addNew(product).then((result) => {
                 props.onProductAdded(result.data)
                 setProduct('')
-                props.setAlertState(null)
+                
             })
         }
     }

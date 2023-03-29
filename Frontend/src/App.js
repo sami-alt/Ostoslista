@@ -1,13 +1,11 @@
 import ListComponent from "./Pages/ShoppingList/index";
 import  "./style.css";
-import { useState } from "react";
-import  Alert  from "@mui/material/Alert";
 import { Routes, Route, Link } from "react-router-dom";
 import Home from "./Pages/Home";
+import Login from "./Pages/Login/Login";
 
 
 function App() {
-  const [alertState, setAlertState] = useState(null)
   return (
     
     <div className="app">
@@ -19,13 +17,16 @@ function App() {
           <li>
             <Link to="/ShoppingList">Lists</Link>
           </li>
+          <li>
+            <Link to="/Login">Login</Link>
+          </li>
         </ul>
       </nav>
 
       <Routes>
         <Route path="/" element={<Home/>}/>
-        <Route path="/ShoppingList" element={<ListComponent setAlertState={setAlertState}/>}></Route>
-      {alertState ? <Alert severity="error" variant="filled" sx={{width:'80%', height:"40px", position: 'absolute', top: 200, zIndex:'tooltip' }}> Kirjoita tuote</Alert> : ""}
+        <Route path="/ShoppingList" element={<ListComponent/>}></Route>
+        <Route path="/Login" element={<Login/>}></Route>
       </Routes>
     </div>
   );
