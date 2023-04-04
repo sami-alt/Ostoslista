@@ -1,16 +1,34 @@
 {
   "lista": [
     {
-      "product": "1",
-      "id": 1
+      "product": "Maito",
+      "id": 1,
+      "done": false
     },
     {
-      "product": "2",
-      "id": 2
+      "product": "Makkara",
+      "id": 2,
+      "done": false
     },
     {
-      "product": "4",
-      "id": 4
+      "product": "Leipä",
+      "id": 3,
+      "done": false
+    },
+    {
+      "product": "Juusto",
+      "id": 4,
+      "done": false
+    },
+    {
+      "product": "Voi",
+      "id": 5,
+      "done": false
+    },
+    {
+      "product": "Maito",
+      "id": 6,
+      "done": false
     }
   ]
 }

@@ -1,8 +1,8 @@
-import {getList, updateProduct} from "../../Api/listApi"
+import {getList, updateProduct} from "../../Api/productApi"
 import React, { useEffect, useState } from "react"
 import List from '@mui/material/List' 
 import { ButtonGroup, ListItem, TextField } from "@mui/material"
-import Delete from "./delete"
+import Delete from "./deleteItem"
 import AddProduct from "./AddProduct";
 import Button from "@mui/material/Button"
 import CheckIcon from "@mui/icons-material/Check"

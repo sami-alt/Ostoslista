@@ -1,4 +1,4 @@
-import { deleteOld } from "../../Api/listApi"
+import { deleteOld } from "../../Api/productApi"
 import  Button  from "@mui/material/Button"
 import DeleteIcon from "@mui/icons-material/Delete"
 

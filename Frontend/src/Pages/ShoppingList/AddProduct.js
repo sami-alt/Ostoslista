@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react"
-import { addNew } from "../../Api/listApi"
+import { addNew } from "../../Api/productApi"
 import AddShoppingCarIcon from '@mui/icons-material/AddShoppingCart'
 import {IconButton } from "@mui/material"
 import TextField from "@mui/material/TextField"

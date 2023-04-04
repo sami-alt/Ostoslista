@@ -4,19 +4,30 @@ const bodyParser = require('body-parser')
 const fs = require('fs')
 const cors = require('cors')
 
+const sqlite3 = require('sqlite3').verbose()
+
+
+const db = new sqlite3.Database('./list.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) return console.error(err.message);
+})
+
+db.run('CREATE TABLE if not exists items (product text, id int primary key, done boolean)')
+
+
 const getLista = () =>{
-    try {
-    const contets = fs.readFileSync('./db.json', 'utf8')
-  
-  if(!contets){
-    return []
-  }
-   return JSON.parse(contets).lista
-  } catch(error) {
-    console.error(error)
-    return []
-    }
+    return new Promise((resolve, reject) => {
+        db.all('select * from items', [], (err, values) => {
+            if (err) {
+                reject(err)
+                return
+            }
+            resolve(values)
+        })
+    })
 }
+
+
+
 
 const saveLista = (newLista) => fs.writeFileSync('./db.json', JSON.stringify({lista: newLista}, null, 2))
 
@@ -27,8 +38,14 @@ app.get('/', (req, res) => {
     res.send('Ostoslista')
 })
 
-app.get('/lista', (req, res) => {
-    res.json(getLista())
+app.get('/lista', async (req, res) => {
+    try {
+        const values = await getLista()
+        res.json(values)
+    } catch(err) {
+        console.error(err)
+        res.status(500).json({error: String(err)})
+    }
 })
 
 app.get('/lista/:id', (req, res) => {
@@ -61,6 +78,17 @@ app.post('/lista/',(req, res) => {
     lista = lista.concat(product)
     saveLista(lista)
     res.json(product)
+})
+
+app.post('/lista/id',(req,res) => {
+    const lista = {
+        name:'listan nimi',
+        id:1,
+        owner:ownerID,
+        content:{...content}
+
+    }
+
 })
 
 app.put('/lista/:id', (req, res) => {
