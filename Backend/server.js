@@ -10,11 +10,12 @@ const knex = require('knex')({
     }
 });
 
-knex.raw('CREATE TABLE if not exists items (product text, id integer primary key autoincrement, done boolean)')
-    .then(() => console.log('created'))
-
-const getLista = () =>{
+const getList = () =>{
     return knex.select('*').from('items')
+}
+
+const getLists = () => {
+    return knex.select('*').from('lists')
 }
 
 app.use(cors())
@@ -24,9 +25,10 @@ app.get('/', (req, res) => {
     res.send('Ostoslista')
 })
 
-app.get('/lista', async (req, res) => {
+app.get('/tuotteet', async (req, res) => {
     try {
-        const values = await getLista()
+        const values = await getList()
+        console.log(values)
         res.json(values)
     } catch(err) {
         console.error(err)
@@ -34,9 +36,10 @@ app.get('/lista', async (req, res) => {
     }
 })
 
-app.post('/lista/',async (req, res) => {
+app.post('/tuote/',async (req, res) => {
     const product = {
         product: req.body.product,
+        listId: req.body.listId,
         done: false
     }
     const createdProducts = await knex('items').insert(product).returning('id')
@@ -45,11 +48,9 @@ app.post('/lista/',async (req, res) => {
     res.json(product)
 })
 
-
-
-app.put('/lista/:id', async (req, res) => {
+app.put('/tuote/:id', async (req, res) => {
     const id = Number(req.params.id)
-    let lista = await getLista()
+    let lista = await getList()
     const prodToChange = lista.find(prod => prod.id === id)
     if (!prodToChange) {
         res.status(404).end()
@@ -63,20 +64,23 @@ app.put('/lista/:id', async (req, res) => {
     res.json(prodToChange)
 })
 
-app.delete('/lista/:id', async (req, res) => {
+app.delete('/tuote/:id', async (req, res) => {
     const id = Number(req.params.id)
     await knex('items').where('id', id).del()
     let lista = await getLista()
     res.json(lista)
 })
 
-app.post('/lista/id',(req,res) => {
-    const lista = {
-        name:'listan nimi',
-        id:1,
-        owner:ownerID,
-        content:{...content}
+
+app.post('/lista', async (req,res) => {
+    const list = {
+        name: req.body.name, 
+        owner:req.body.owner
     }
+        const createdList = await knex('lists').insert(list).returning('id')
+        list.id = createdList[0].id
+
+        res.json(list)
 })
 
 
