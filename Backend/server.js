@@ -67,10 +67,20 @@ app.put('/tuote/:id', async (req, res) => {
 app.delete('/tuote/:id', async (req, res) => {
     const id = Number(req.params.id)
     await knex('items').where('id', id).del()
-    let lista = await getLista()
+    let lista = await getLists()
     res.json(lista)
 })
 
+app.get('/listat', async(req, res) => {
+    try {
+    const lists = await getLists()
+    res.json(lists)
+    }catch(err) {
+        console.log(err)
+        res.status(500).json({error: String(err)})
+    }
+
+})
 
 app.post('/lista', async (req,res) => {
     const list = {
