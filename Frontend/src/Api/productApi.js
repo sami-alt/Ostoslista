@@ -1,19 +1,20 @@
 import request from "../Utils/request"
 
 
-export const getList = () => {
+export const getProducts = () => {
     return request({
         method: "GET",
-        url: "lista"
+        url: "tuotteet"
     })
 }
 
-export const addNew = (product) => {
+export const addNew = (product, listId) => {
     return request({
         method: "POST",
-        url: "lista/",
+        url: "tuote/",
         data: {
-            product: product
+            product: product,
+            listId,
         }
     })
 }
@@ -21,14 +22,14 @@ export const addNew = (product) => {
 export const deleteOld = (id) => {
     return request({
         method: "DELETE",
-        url: "lista/" + id,
+        url: "tuote/" + id,
     })
 }
 
 export const updateProduct = (id,patch) =>{
     return request({
         method: "PUT",
-        url:"lista/" + id,
+        url:"tuote/" + id,
         data: patch
     })
 }
