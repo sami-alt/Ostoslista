@@ -3,6 +3,7 @@ import  "./style.css";
 import { Routes, Route, Link } from "react-router-dom";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login/Login";
+import MyLists from "./Pages/MyLists";
 
 
 function App() {
@@ -12,13 +13,16 @@ function App() {
       <nav>
         <ul>
           <li>
-          <Link to="/">Home</Link>
+          <Link to="/">Kotiin</Link>
           </li>
           <li>
-            <Link to="/ShoppingList">Lists</Link>
+            <Link to="/ShoppingList">Lista</Link>
           </li>
           <li>
-            <Link to="/Login">Login</Link>
+            <Link to="/Login">Kirjadu</Link>
+          </li>
+          <li>
+            <Link to="/MyLists">Listat</Link>
           </li>
         </ul>
       </nav>
@@ -27,6 +31,7 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/ShoppingList" element={<ListComponent/>}></Route>
         <Route path="/Login" element={<Login/>}></Route>
+        <Route path="/MyLists" element={<MyLists/>}></Route>
       </Routes>
     </div>
   );
