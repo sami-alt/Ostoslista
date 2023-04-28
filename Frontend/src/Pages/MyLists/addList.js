@@ -29,9 +29,9 @@ const AddList = (props) => {
 
     return(
         <nav aria-label="main mailbox folders">
-        <Box component="form" sx={{bgcolor: "Background.paper"}}>
+        <Box component="form" >
         <TextField className="list-text-field" id="outlined-basic, margin-dense"  variant="filled" label="Listan nimi" value={listName} onChange={handleInput} />
-        <Button variant="contained" size="small" label="Add list" onClick={add} startIcon={<CheckIcon/>}/>
+        <Button variant="contained" size="small" label="Add list" onClick={add} startIcon={<CheckIcon/>} sx={{top:"12px"}}/>
         </Box>
         </nav>
     )
