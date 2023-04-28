@@ -20,7 +20,7 @@ const AddProduct = (props) => {
             return 
         } else {
             event.preventDefault()
-            addNew(product).then((result) => {
+            addNew(product, 1).then((result) => {
                 props.onProductAdded(result.data)
                 setProduct('')
                 
