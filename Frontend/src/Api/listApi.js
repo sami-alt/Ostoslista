@@ -16,7 +16,6 @@ export const getLists = () =>{
         method:"GET",
         url:"listat"
     })
-
 }
 
 export const getList = (id) => {
