@@ -1,10 +1,10 @@
 import request from "../Utils/request"
 
 
-export const getProducts = () => {
+export const getProducts = (listId) => {
     return request({
         method: "GET",
-        url: "tuotteet"
+        url: "tuotteet/" + listId
     })
 }
 
@@ -14,7 +14,7 @@ export const addNew = (product, listId) => {
         url: "tuote/",
         data: {
             product: product,
-            listId,
+            listId: listId
         }
     })
 }
