@@ -1,19 +1,60 @@
-import useState from 'react'
-
-
+import AddList from './addList'
+import { getLists } from '../../Api/listApi'
+import {useState,  useEffect } from 'react'
+import { List} from '@mui/material'
+//import ListComponent from '/home/sami/Ostoslista/Frontend/src/Pages/ShoppingList/index'
+import  ListItem  from '@mui/material/ListItem'
+import Box from '@mui/material/Box'
+import Delete from './deleteList'
+import { Link } from "react-router-dom";
 
 const MyLists = () => {
-    const [alllists, setAllLists] = useState('')
+    const [allLists, setAllLists] = useState([])
 
-    const lists = alllists.map()
+    const getListat = () => {
+        getLists().then((response)=>{ setAllLists(response.data)})
+    }
+    
+    useEffect(()=> {
+        getListat()
+    },[])
 
+    const newList = (addedList) =>{
+        const listAdded = allLists.concat(addedList)
+        return setAllLists(listAdded)
+    }
+
+    const removeList = (removedId) =>{
+        const newList = allLists.filter(list => list.id !== removedId)
+        return setAllLists(newList)
+    }
+
+    const lists = allLists.map((lists) => (
+        <ListItem key={lists.id}>
+            
+            <Link to={"/ShoppingList/" + lists.id}>{lists.name}</Link>
+            <Delete onDelete={removeList} id={lists.id} />
+            
+        </ListItem>
+    ))
+    
     return(
-        <>
-            {lists}
-        </>
+            <Box >
+                <List>
+                    <ul>{lists}</ul>
+                </List>
+                <AddList onListAdded={newList}/>
+
+            </Box>
+            
 
     )
 
 }
 
 export default MyLists
+
+//
+// <Link to="/ShoppingList">Lista</Link>
+//<ListItemText  sx={{color:"white"}} >{lists.name}</ListItemText>
+//, ListItemText <ListComponent id={lists.id}/>

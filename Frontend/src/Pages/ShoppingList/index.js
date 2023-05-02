@@ -1,4 +1,4 @@
-import {getList, updateProduct} from "../../Api/productApi"
+import {getProducts, updateProduct} from "../../Api/productApi"
 import React, { useEffect, useState } from "react"
 import List from '@mui/material/List' 
 import { ButtonGroup, ListItem, TextField } from "@mui/material"
@@ -6,23 +6,21 @@ import Delete from "./deleteItem"
 import AddProduct from "./AddProduct";
 import Button from "@mui/material/Button"
 import CheckIcon from "@mui/icons-material/Check"
+import { useParams } from "react-router-dom"
 
 
 const ListComponent = (props) => {
     const [proList, setproList] = useState([])
-    const getLista = () => {
-        (
-            getList().then((response) => setproList(response.data))
-        )
-    }
-    useEffect(() => {
-        getLista()
-    }, [])
+    const {id} = useParams()
 
+    useEffect(() => {
+        getProducts(id).then((response) => (setproList(response.data)))
+    }, [id])
+     
     const onProductChange = (tuote, event) => {
         const newList = proList.map(originalTuote => {
             if (tuote.id === originalTuote.id) {
-                const changes = {product: event.target.value, done: false}
+                const changes = {product: event.target.value, done: 0}
                 const newTuote = {
                     ...tuote,
                     ...changes,
@@ -43,7 +41,7 @@ const ListComponent = (props) => {
             if(prodDone.id === prod.id){
                 const doneProd = {
                     ...prod,
-                    done : true
+                    done : 1
                 }
                 updateProduct(prodDone.id, {done: doneProd.done})
                 return doneProd
@@ -67,7 +65,7 @@ const ListComponent = (props) => {
     const list = proList.map((product) => (
         <ListItem key={product.id}>
             <TextField className="text-field" style={{
-                textDecoration: product.done === true ? 'line-through' : 'none',
+                textDecoration: product.done === 1 ? 'line-through' : 'none',
             }} defaultValue={product.product} onBlur={(event) => onProductChange(product, event)}></TextField>
             <ButtonGroup>
             <Button variant="contained"  size="small" id={product.id} onClick={(event => handleDone(product, event))} startIcon={<CheckIcon/>}  > </Button>
@@ -80,7 +78,7 @@ const ListComponent = (props) => {
         <List>
             <ul>{list}
             <ListItem>
-            <AddProduct onProductAdded={alteredListNew} setAlertState={props.setAlertState} />
+            <AddProduct onProductAdded={alteredListNew} id={id}/>
             </ListItem>
             </ul>
         </List>

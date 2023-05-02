@@ -20,10 +20,9 @@ const AddProduct = (props) => {
             return 
         } else {
             event.preventDefault()
-            addNew(product, 1).then((result) => {
+            addNew(product, props.id).then((result) => {
                 props.onProductAdded(result.data)
                 setProduct('')
-                
             })
         }
     }
@@ -34,7 +33,6 @@ const AddProduct = (props) => {
                 <IconButton className="button" color='primary' size='large'  type="submit" onClick={lisaa}>
                 <AddShoppingCarIcon/>
                 </IconButton>
-                
             </Fragment>
     )
 }

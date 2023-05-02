@@ -10,7 +10,7 @@ import { createList } from "../../Api/listApi"
 const AddList = (props) => {
 
     const [listName, setListName] = useState('') 
-    const ownerID = 2
+    const ownerID = 3
 
     const handleInput = (event) => {
         setListName(event.target.value)
