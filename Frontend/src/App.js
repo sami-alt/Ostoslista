@@ -8,28 +8,27 @@ import MyLists from "./Pages/MyLists";
 
 function App() {
   return (
-    
     <div className="app">
       <nav>
         <ul>
           <li>
-          <Link to="/">Kotiin</Link>
+          <Link className="list-color" to="/">Kotiin</Link>
           </li>
           <li>
-            <Link to="/ShoppingList">Lista</Link>
+            <Link>Plase holder</Link>
           </li>
           <li>
-            <Link to="/Login">Kirjadu</Link>
+            <Link className="list-color" to="/Login">Kirjadu</Link>
           </li>
           <li>
-            <Link to="/MyLists">Listat</Link>
+            <Link className="list-color" to="/MyLists">Listat</Link>
           </li>
         </ul>
       </nav>
 
       <Routes>
         <Route path="/" element={<Home/>}/>
-        <Route path="/ShoppingList" element={<ListComponent/>}></Route>
+        <Route path="/ShoppingList/:id" element={<ListComponent/>}></Route>
         <Route path="/Login" element={<Login/>}></Route>
         <Route path="/MyLists" element={<MyLists/>}></Route>
       </Routes>
