@@ -20,11 +20,17 @@ knex.schema.createTable('items', (table)=>{
 knex.schema.createTable('lists', (table)=>{
     table.integer('id').primary();
     table.text('name');
-    table.integer('owner').references('id'),inTable('users').notNullable();
+    table.integer('owner').references('id').inTable('users').notNullable();
 }).then(console.log('lists table created'))
 
 knex.schema.createTable('users', (table)=>{
     table.increments('id').primary();
-    table.text('username');
-    table.text('password');
+    table.text('username').unique();
+    table.text('passwordHash');
 }).then(console.log('user table created'))
+
+knex.schema.createTable('sessions', (table)=> {
+    table.text('token');
+    table.integer('userId').references('id').inTable('users')
+    table.timeStamp('created_at');
+})
