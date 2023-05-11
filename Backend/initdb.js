@@ -32,5 +32,5 @@ knex.schema.createTable('users', (table)=>{
 knex.schema.createTable('sessions', (table)=> {
     table.text('token');
     table.integer('userId').references('id').inTable('users')
-    table.timeStamp('created_at');
-})
+    table.timestamp('created_at').defaultTo(knex.fn.now());
+}).then(console.log('sessions teble created'))
