@@ -10,7 +10,7 @@ import { createList } from "../../Api/listApi"
 const AddList = (props) => {
 
     const [listName, setListName] = useState('') 
-    const ownerID = 3
+    const owner = props.id
 
     const handleInput = (event) => {
         setListName(event.target.value)
@@ -21,7 +21,8 @@ const AddList = (props) => {
             alert("kirjoita nimi")
         } else {
             event.preventDefault()
-            createList(listName, ownerID).then((result) =>{
+            createList(listName, owner).then((result) =>{
+                console.log(listName, owner)
              props.onListAdded(result.data)})
              setListName('')
         }

@@ -2,22 +2,18 @@ import AddList from './addList'
 import { getLists } from '../../Api/listApi'
 import {useState,  useEffect } from 'react'
 import { List} from '@mui/material'
-//import ListComponent from '/home/sami/Ostoslista/Frontend/src/Pages/ShoppingList/index'
 import  ListItem  from '@mui/material/ListItem'
 import Box from '@mui/material/Box'
 import Delete from './deleteList'
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const MyLists = () => {
     const [allLists, setAllLists] = useState([])
+    const {id} = useParams()
 
-    const getListat = () => {
-        getLists().then((response)=>{ setAllLists(response.data)})
-    }
-    
     useEffect(()=> {
-        getListat()
-    },[])
+        getLists(id).then((response)=>{ setAllLists(response.data)})
+    },[id])
 
     const newList = (addedList) =>{
         const listAdded = allLists.concat(addedList)
@@ -43,18 +39,10 @@ const MyLists = () => {
                 <List>
                     <ul>{lists}</ul>
                 </List>
-                <AddList onListAdded={newList}/>
-
+                <AddList onListAdded={newList} id={id}/>
             </Box>
-            
-
     )
 
 }
 
 export default MyLists
-
-//
-// <Link to="/ShoppingList">Lista</Link>
-//<ListItemText  sx={{color:"white"}} >{lists.name}</ListItemText>
-//, ListItemText <ListComponent id={lists.id}/>

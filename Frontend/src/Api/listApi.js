@@ -5,7 +5,6 @@ export const createList = (name, owner) =>{
         method:"POST",
         url:"lista",
         data:{
-            owner:owner,
             name:name
         }
     })

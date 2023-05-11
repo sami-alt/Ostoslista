@@ -8,8 +8,6 @@ import TextField from "@mui/material/TextField"
 
 const AddProduct = (props) => {
     const [product, setProduct] = useState('')
-    
-
     const handleInput = (event) => {
         setProduct(event.target.value)
     }
@@ -30,7 +28,7 @@ const AddProduct = (props) => {
     return (
             <Fragment>
                 <TextField className="input-text-field" id="outlined-basic, margin-dense" label="Lisää" variant="filled"   value={product} onChange={handleInput}></TextField>
-                <IconButton className="button" color='primary' size='large'  type="submit" onClick={lisaa}>
+                <IconButton className="button" color='primary' size='large'   onClick={lisaa}>
                 <AddShoppingCarIcon/>
                 </IconButton>
             </Fragment>
