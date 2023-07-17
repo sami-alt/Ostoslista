@@ -20,11 +20,13 @@ knex.schema.createTable('items', (table)=>{
 knex.schema.createTable('lists', (table)=>{
     table.integer('id').primary();
     table.text('name');
-    table.integer('owner').references('id'),inTable('users').notNullable();
+    table.integer('owner')
 }).then(console.log('lists table created'))
-
+/*
+.references('id').inTable('users').notNullable();
 knex.schema.createTable('users', (table)=>{
     table.increments('id').primary();
     table.text('username');
     table.text('password');
 }).then(console.log('user table created'))
+*/

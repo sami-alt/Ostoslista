@@ -25,3 +25,6 @@ yarn-error.log*
 
 *.db
 db.json
+sqlite-dll-win64-x64-3410200.zip
+sqlite3.def
+sqlite3.dll
