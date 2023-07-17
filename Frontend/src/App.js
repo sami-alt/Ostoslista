@@ -2,8 +2,10 @@ import ListComponent from "./Pages/ShoppingList/index";
 import  "./style.css";
 import { Routes, Route, Link } from "react-router-dom";
 import Home from "./Pages/Home";
-import Login from "./Pages/Login/Login";
+import LoginPage from "./Pages/Login";
 import MyLists from "./Pages/MyLists";
+import CreateUser from "./Pages/CreateUser";
+
 
 
 function App() {
@@ -15,7 +17,7 @@ function App() {
           <Link className="list-color" to="/">Kotiin</Link>
           </li>
           <li>
-            <Link>Plase holder</Link>
+            <Link className="list-color" to="/CreateUser">Luo Käyttäjä</Link>
           </li>
           <li>
             <Link className="list-color" to="/Login">Kirjadu</Link>
@@ -28,9 +30,13 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home/>}/>
-        <Route path="/ShoppingList/:id" element={<ListComponent/>}></Route>
-        <Route path="/Login" element={<Login/>}></Route>
-        <Route path="/MyLists" element={<MyLists/>}></Route>
+        <Route path="/Login" element={<LoginPage/>}/>
+        <Route path="/CreateUser" element={<CreateUser/>}/>
+
+        <Route path="/ShoppingList/:id" element={<ListComponent/>}/>
+
+        <Route path="/MyLists" element={<MyLists/>}/>
+        
       </Routes>
     </div>
   );

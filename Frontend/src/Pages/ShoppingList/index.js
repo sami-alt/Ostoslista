@@ -9,7 +9,7 @@ import CheckIcon from "@mui/icons-material/Check"
 import { useParams } from "react-router-dom"
 
 
-const ListComponent = (props) => {
+const ListComponent = () => {
     const [proList, setproList] = useState([])
     const {id} = useParams()
 
