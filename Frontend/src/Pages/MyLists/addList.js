@@ -1,4 +1,4 @@
-import  Button  from "@mui/material/Button"
+import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
 import { Box } from "@mui/system"
 import CheckIcon from "@mui/icons-material/Check"
@@ -9,7 +9,7 @@ import { createList } from "../../Api/listApi"
 
 const AddList = (props) => {
 
-    const [listName, setListName] = useState('') 
+    const [listName, setListName] = useState('')
     const owner = props.id
 
     const handleInput = (event) => {
@@ -17,23 +17,24 @@ const AddList = (props) => {
     }
 
     const add = (event) => {
-        if(listName === ""){
+        if (listName === "") {
             alert("kirjoita nimi")
         } else {
             event.preventDefault()
-            createList(listName, owner).then((result) =>{
+            createList(listName, owner).then((result) => {
                 console.log(listName, owner)
-             props.onListAdded(result.data)})
-             setListName('')
+                props.onListAdded(result.data)
+            })
+            setListName('')
         }
     }
 
-    return(
+    return (
         <nav aria-label="main mailbox folders">
-        <Box component="form" >
-        <TextField className="list-text-field" id="outlined-basic, margin-dense"  variant="filled" label="Listan nimi" value={listName} onChange={handleInput} />
-        <Button variant="contained" size="small" label="Add list" onClick={add} startIcon={<CheckIcon/>} sx={{top:"12px"}}/>
-        </Box>
+            <Box component="form" >
+                <TextField className="list-text-field" id="outlined-basic, margin-dense" variant="filled" label="Listan nimi" value={listName} onChange={handleInput} />
+                <Button variant="contained" size="small" label="Add list" onClick={add} startIcon={<CheckIcon />} sx={{ top: "12px" }} />
+            </Box>
         </nav>
     )
 

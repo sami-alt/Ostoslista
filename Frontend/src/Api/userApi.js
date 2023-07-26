@@ -29,6 +29,10 @@ export const getToken = () => {
     })
 }
 
-export const logUserOut = () => {
-
+export const logoutUser = (username) => {
+    return request({
+        method:"GET",
+        url:"logout",
+        
+    })
 }

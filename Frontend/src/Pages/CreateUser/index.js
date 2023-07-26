@@ -3,17 +3,16 @@ import  {TextField}  from "@mui/material"
 import Button from "@mui/material/Button"
 import { useState } from "react"
 import { newUser } from "../../Api/userApi"
-import bcrypt from "bcryptjs"
+
 
 
 
 const CreateUser = () => {
-    const salt = bcrypt.genSaltSync(10)
+    
 
     const [userName ,setUsername] = useState('')
-    const [password ,setPassword] = useState('')
+    const [passWord ,setPassword] = useState('')
     const [confirm ,setConfirm]   = useState('')
-    const hashedPassword = bcrypt(password, salt)
     
     const handleUser = (event) => {
         setUsername(event.target.value)
@@ -28,7 +27,7 @@ const CreateUser = () => {
     }
 
     const confirmPassword = () => {
-        if(password !== confirm){
+        if(passWord !== confirm){
             alert('Salasanat eivät täsmää!')
             return
         } 
@@ -41,8 +40,8 @@ const CreateUser = () => {
     const create = () => {
         confirmUsername()
         confirmPassword()
-        newUser(userName, hashedPassword).then((result) => {
-            console.log(userName, hashedPassword)
+        newUser(userName, passWord).then((result) => {
+            console.log(userName, passWord)
         })
     }
 
