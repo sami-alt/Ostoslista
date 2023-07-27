@@ -30,3 +30,14 @@ export const deleteList = (id) => {
         url:"lista/" + id
     })
 }
+
+export const shareList = (toUserName, listId) => {
+    return request({
+        method: "POST",
+        url: "sharelist",
+        data: {
+            toUserName:toUserName,
+            listId:listId
+        }
+    })
+}

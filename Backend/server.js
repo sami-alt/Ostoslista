@@ -35,9 +35,7 @@ const getProducts = (id) => {
 }
 
 const getLists = (id) => {
-    //console.log(id)
     return knex.select('*').from('lists').where('owner', id).orWhereExists(knex.select('*').from('sharedList').where('sharedListId', id).andWhere('sharedToUserId', id))
-
 }
 
 const getUser = async (username) => {
