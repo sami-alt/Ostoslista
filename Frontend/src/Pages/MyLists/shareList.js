@@ -8,10 +8,14 @@ import DialogActions from '@mui/material/DialogActions';
 //import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { shareList } from "../../Api/listApi";
 
 const ShareList = (props) => {
     const [shareTo, setShareTo] = useState('')
     const [open, setOpen] = useState(false)
+    const userId = props.id
+    console.log(userId)
+    
 
     const handleOpen = () => {
         setOpen(true)
@@ -22,12 +26,17 @@ const ShareList = (props) => {
     }
 
     const handleInput = (event) => {
+        console.log('handle input', event)
         setShareTo(event.target.value)
 
     }
 
-    const share = (props) => {
-        shareTo()
+    const share = (event) => {
+        event.preventDefault()
+        shareList(shareTo ,userId)
+        console.log(shareTo, userId)
+        console.log('jaaa')
+        
     }
 
     return (
@@ -39,7 +48,7 @@ const ShareList = (props) => {
                     <TextField variant="filled" label="Listan nimi" value={shareTo} onChange={handleInput}></TextField>
                 </DialogContentText>
                 <DialogActions>
-                    <Button onAuxClick={share} >Jaa</Button>
+                    <Button onClick={share} >Jaa</Button>
                 </DialogActions>
             </Dialog>
 

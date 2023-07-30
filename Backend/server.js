@@ -35,7 +35,9 @@ const getProducts = (id) => {
 }
 
 const getLists = (id) => {
-    return knex.select('*').from('lists').where('owner', id).orWhereExists(knex.select('*').from('sharedList').where('sharedListId', id).andWhere('sharedToUserId', id))
+    return knex.select('*').from('lists').where('owner', id).orWhereExists(
+        knex.select('*').from('sharedList').whereColumn('sharedListId', 'lists.id').andWhere('sharedToUserId', id)
+    )
 }
 
 const getUser = async (username) => {
@@ -58,7 +60,7 @@ app.get('/', (req, res) => {
 
 async function getAuthenticatedUser(req) {
     const cookies = req.cookies
-    console.log('cookies', cookies);
+    //console.log('cookies', cookies);
     const sessionToken = cookies.session_token
     if (!sessionToken) {
         throw new Error('Not logged in')
@@ -81,7 +83,7 @@ app.post('/user', async (req, res) => {
         username: req.body.username,
         passwordHash: req.body.password
     }
-    console.log(user)
+    //console.log(user)
     const createdUser = await knex('users').insert(user).returning('id')
     user.id = createdUser[0].id
     //console.log(user)
@@ -98,13 +100,13 @@ app.post('/login', async (req, res) => {
         username: req.body.username,
         password: req.body.password
     }
-    console.log(user)
+    //console.log(user)
     if (!user.username) {
         res.status(401).end()
         return
     }
     const dbUser = (await getUser(user.username))
-    console.log(dbUser)
+    //console.log(dbUser)
     const expPassword = dbUser.passwordHash
     if (!expPassword || expPassword !== user.password) {
         res.status(401).end()
@@ -182,7 +184,7 @@ app.delete('/tuote/:id', async (req, res) => {
 
 app.get('/listat', async (req, res) => {
     const user = req.user;
-    console.log('user:', user);
+    //console.log('user:', user);
     try {
         const lists = await getLists(user.id)
         res.json(lists)
@@ -214,6 +216,20 @@ app.delete('/lista/:id', async (req, res) => {
     res.json({ id })
 })
 
+app.post('/sharelist', async (req, res) => {
+    const sharedToListId = Number(req.body.listId)
+    console.log('käyttäjä',req.body.toUserName)
+    const [sharedToUserId] = await knex('users').where( 'username',req.body.toUserName).select('id')
+    console.log(sharedToUserId)
+    await knex('sharedlist').insert({
+        sharedToUserId:sharedToUserId.id,
+        sharedListId:sharedToListId
+    })
+   
+})
+
+
+//Käyttäjän autentkikointi
 
 
 app.get('/auth', (req, res) => {

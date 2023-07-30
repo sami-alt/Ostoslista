@@ -6,15 +6,15 @@ import ListItem from '@mui/material/ListItem'
 import Box from '@mui/material/Box'
 import Delete from './deleteList'
 import Sharelist from './shareList'
-import { Link, useParams } from "react-router-dom";
+import { Link} from "react-router-dom";
 
 const MyLists = () => {
     const [allLists, setAllLists] = useState([])
-    const { id } = useParams()
+    
 
     useEffect(() => {
-        getLists(id).then((response) => { setAllLists(response.data) })
-    }, [id])
+        getLists().then((response) => { setAllLists(response.data) })
+    }, [])
 
     const newList = (addedList) => {
         const listAdded = allLists.concat(addedList)
@@ -22,6 +22,7 @@ const MyLists = () => {
     }
 
     const removeList = (removedId) => {
+        console.log('remove list' ,removedId)
         const newList = allLists.filter(list => list.id !== removedId)
         return setAllLists(newList)
     }
@@ -33,13 +34,12 @@ const MyLists = () => {
             <Delete onDelete={removeList} id={lists.id} />
         </ListItem>
     ))
-
     return (
         <Box >
             <List>
                 <ul>{lists}</ul>
             </List>
-            <AddList onListAdded={newList} id={id} />
+            <AddList onListAdded={newList} />
         </Box>
     )
 
