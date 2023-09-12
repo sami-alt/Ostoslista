@@ -15,7 +15,6 @@ const ShareList = (props) => {
     const [open, setOpen] = useState(false)
     const userId = props.id
     console.log(userId)
-    
 
     const handleOpen = () => {
         setOpen(true)
@@ -28,15 +27,11 @@ const ShareList = (props) => {
     const handleInput = (event) => {
         console.log('handle input', event)
         setShareTo(event.target.value)
-
     }
 
     const share = (event) => {
         event.preventDefault()
-        shareList(shareTo ,userId)
-        console.log(shareTo, userId)
-        console.log('jaaa')
-        
+        shareList(shareTo, userId)
     }
 
     return (
@@ -51,12 +46,8 @@ const ShareList = (props) => {
                     <Button onClick={share} >Jaa</Button>
                 </DialogActions>
             </Dialog>
-
         </Box>
-
     )
-
-
 }
 
 export default ShareList

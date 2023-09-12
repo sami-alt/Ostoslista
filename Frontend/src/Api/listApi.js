@@ -1,7 +1,7 @@
 
 import request from "../Utils/request";
 
-export const createList = (name, owner) =>{
+export const createList = (name) =>{
     return request({
         method:"POST",
         url:"lista",

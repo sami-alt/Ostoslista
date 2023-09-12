@@ -4,12 +4,7 @@ import Button from "@mui/material/Button"
 import { useState } from "react"
 import { newUser } from "../../Api/userApi"
 
-
-
-
 const CreateUser = () => {
-    
-
     const [userName ,setUsername] = useState('')
     const [passWord ,setPassword] = useState('')
     const [confirm ,setConfirm]   = useState('')
@@ -44,7 +39,6 @@ const CreateUser = () => {
             console.log(userName, passWord)
         })
     }
-
 
     return (
         <Box component="form" type="submit" >

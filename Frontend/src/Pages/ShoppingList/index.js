@@ -1,6 +1,6 @@
-import {getProducts, updateProduct} from "../../Api/productApi"
+import { getProducts, updateProduct } from "../../Api/productApi"
 import React, { useEffect, useState } from "react"
-import List from '@mui/material/List' 
+import List from '@mui/material/List'
 import { ButtonGroup, ListItem, TextField } from "@mui/material"
 import Delete from "./deleteItem"
 import AddProduct from "./AddProduct";
@@ -8,24 +8,23 @@ import Button from "@mui/material/Button"
 import CheckIcon from "@mui/icons-material/Check"
 import { useParams } from "react-router-dom"
 
-
 const ListComponent = () => {
     const [proList, setproList] = useState([])
-    const {id} = useParams()
+    const { id } = useParams()
 
     useEffect(() => {
         getProducts(id).then((response) => (setproList(response.data)))
     }, [id])
-     
+
     const onProductChange = (tuote, event) => {
         const newList = proList.map(originalTuote => {
             if (tuote.id === originalTuote.id) {
-                const changes = {product: event.target.value, done: 0}
+                const changes = { product: event.target.value, done: 0 }
                 const newTuote = {
                     ...tuote,
                     ...changes,
                 }
-
+            
                 updateProduct(tuote.id, changes)
 
                 return newTuote
@@ -38,19 +37,19 @@ const ListComponent = () => {
 
     const handleDone = (prodDone) => {
         const newList = proList.map(prod => {
-            if(prodDone.id === prod.id){
+            if (prodDone.id === prod.id) {
                 const doneProd = {
                     ...prod,
-                    done : 1
+                    done: 1
                 }
-                updateProduct(prodDone.id, {done: doneProd.done})
+                updateProduct(prodDone.id, { done: doneProd.done })
                 return doneProd
             } else {
                 return prod
             }
         })
         setproList(newList)
-    } 
+    }
 
     const alteredListNew = (newProduct) => {
         const newList = proList.concat(newProduct)
@@ -68,8 +67,8 @@ const ListComponent = () => {
                 textDecoration: product.done === 1 ? 'line-through' : 'none',
             }} defaultValue={product.product} onBlur={(event) => onProductChange(product, event)}></TextField>
             <ButtonGroup>
-            <Button variant="contained"  size="small" id={product.id} onClick={(event => handleDone(product, event))} startIcon={<CheckIcon/>}  > </Button>
-            <Delete onProductDelete={alteredListDel} id={product.id} />
+                <Button variant="contained" size="small" id={product.id} onClick={(event => handleDone(product, event))} startIcon={<CheckIcon />}  > </Button>
+                <Delete onProductDelete={alteredListDel} id={product.id} />
             </ButtonGroup>
         </ListItem>
     ))
@@ -77,12 +76,12 @@ const ListComponent = () => {
     return (
         <List>
             <ul>{list}
-            <ListItem>
-            <AddProduct onProductAdded={alteredListNew} id={id}/>
-            </ListItem>
+                <ListItem>
+                    <AddProduct onProductAdded={alteredListNew} id={id} />
+                </ListItem>
             </ul>
         </List>
     )
-    }
+}
 
 export default ListComponent

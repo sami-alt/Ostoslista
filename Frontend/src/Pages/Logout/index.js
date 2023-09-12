@@ -10,12 +10,9 @@ const Logout = () => {
         nav('/')
     }
 
-
     return (
         <Button onClick={logoutHandle} >Kirjadu ulos</Button>
     )
-
-
 }
 
 export default Logout

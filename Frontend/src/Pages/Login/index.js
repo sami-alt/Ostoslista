@@ -4,7 +4,6 @@ import Button from "@mui/material/Button"
 import { useState } from "react"
 import { loginUser } from "../../Api/userApi"
 
-
 const LoginPage = () => {
     const [userName, setUsername] = useState('')
     const [password, setPassword] = useState('')

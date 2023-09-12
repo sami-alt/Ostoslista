@@ -5,10 +5,7 @@ import CheckIcon from "@mui/icons-material/Check"
 import { useState } from "react"
 import { createList } from "../../Api/listApi"
 
-
-
 const AddList = (props) => {
-
     const [listName, setListName] = useState('')
     const owner = props.id
 
@@ -37,7 +34,6 @@ const AddList = (props) => {
             </Box>
         </nav>
     )
-
 }
 
 export default AddList

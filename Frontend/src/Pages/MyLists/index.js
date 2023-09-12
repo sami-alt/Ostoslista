@@ -6,11 +6,10 @@ import ListItem from '@mui/material/ListItem'
 import Box from '@mui/material/Box'
 import Delete from './deleteList'
 import Sharelist from './shareList'
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const MyLists = () => {
     const [allLists, setAllLists] = useState([])
-    
 
     useEffect(() => {
         getLists().then((response) => { setAllLists(response.data) })
@@ -22,7 +21,7 @@ const MyLists = () => {
     }
 
     const removeList = (removedId) => {
-        console.log('remove list' ,removedId)
+        console.log('remove list', removedId)
         const newList = allLists.filter(list => list.id !== removedId)
         return setAllLists(newList)
     }
