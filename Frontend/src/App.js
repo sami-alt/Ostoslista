@@ -7,14 +7,12 @@ import MyLists from "./Pages/MyLists";
 import CreateUser from "./Pages/CreateUser";
 import Logout from "./Pages/Logout";
 
-
-
-
-
-
 function App() {
   return (
     <div className="app">
+      <header>
+      <Logout/>
+      </header>
       <nav>
         <ul>
           <li>
@@ -28,9 +26,6 @@ function App() {
           </li>
           <li>
             <Link className="list-color" to="/MyLists">Listat</Link>
-          </li>
-          <li>
-            <Link className="list-color" to="/Logout">Kirjadu ulos</Link>
           </li>
         </ul>
       </nav>

@@ -105,8 +105,15 @@ app.post('/login', async (req, res) => {
         res.status(401).end()
         return
     }
-    const dbUser = (await getUser(user.username))
-    //console.log(dbUser)
+
+    let dbUser
+    try {
+        dbUser = (await getUser(user.username))
+    } catch (err) {
+        res.status(404).end()
+        return
+    }
+
     const expPassword = dbUser.passwordHash
     if (!expPassword || expPassword !== user.password) {
         res.status(401).end()
@@ -129,7 +136,7 @@ app.use(function (req, res, next) {
     getAuthenticatedUser(req)
         .then(user => {
             req.user = user;
-            console.log('waaa', user)
+            // console.log('waaa', user)
             next(null, req);
         }, err => {
             console.error('fail', err)
@@ -218,14 +225,19 @@ app.delete('/lista/:id', async (req, res) => {
 
 app.post('/sharelist', async (req, res) => {
     const sharedToListId = Number(req.body.listId)
-    console.log('käyttäjä',req.body.toUserName)
-    const [sharedToUserId] = await knex('users').where( 'username',req.body.toUserName).select('id')
-    console.log(sharedToUserId)
-    await knex('sharedlist').insert({
-        sharedToUserId:sharedToUserId.id,
-        sharedListId:sharedToListId
-    })
-   
+    console.log('käyttäjä', req.body.toUserName)
+    const [sharedToUserId] = await knex('users').where('username', req.body.toUserName).select('id')
+    console.log(sharedToUserId, 'aaaa')
+    try {
+        await knex('sharedlist').insert({
+            sharedToUserId: sharedToUserId.id,
+            sharedListId: sharedToListId
+        })
+    } catch (err) {
+        res.status(404).end()
+        return
+    }
+
 })
 
 
