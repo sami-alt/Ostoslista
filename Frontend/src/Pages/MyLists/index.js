@@ -7,6 +7,7 @@ import Box from '@mui/material/Box'
 import Delete from './deleteList'
 import Sharelist from './shareList'
 import { Link } from "react-router-dom";
+import "./lists.css"
 
 const MyLists = () => {
     const [allLists, setAllLists] = useState([])
@@ -34,8 +35,8 @@ const MyLists = () => {
         </ListItem>
     ))
     return (
-        <Box >
-            <List>
+        <Box  >
+            <List className='list'>
                 <ul>{lists}</ul>
             </List>
             <AddList onListAdded={newList} />

@@ -2,7 +2,7 @@
 .app {
     background: repeating-linear-gradient(-45deg, rgb(51,49,49), black 1px);
     display: flex;
-    min-width: 100hv;
+    min-width: 100vh;
     min-height: 100vh;
 }
 

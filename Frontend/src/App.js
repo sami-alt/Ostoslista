@@ -6,12 +6,14 @@ import LoginPage from "./Pages/Login";
 import MyLists from "./Pages/MyLists";
 import CreateUser from "./Pages/CreateUser";
 import Logout from "./Pages/Logout";
+import Me from "./userName";
 
 function App() {
   return (
     <div className="app">
       <header>
         <Logout />
+        <Me/> 
       </header>
       <nav>
         <ul>

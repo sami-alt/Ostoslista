@@ -5,6 +5,8 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const crypto = require('node:crypto')
 const { log } = require('node:console')
+const bcrypt = require('bcryptjs')
+
 
 const knex = require('knex')({
     client: 'better-sqlite3',
@@ -84,18 +86,24 @@ async function getAuthenticatedUser(req) {
 //tästä käsittelee käyttäjän lisäykset.
 
 app.post('/user', async (req, res) => {
-    const user = {
-        username: req.body.username,
-        passwordHash: req.body.password
-    }
-    //console.log(user)
-    const createdUser = await knex('users').insert(user).returning('id')
-    user.id = createdUser[0].id
-    //console.log(user)
-    res.json(user)
+    //const salt = bcrypt.genSaltSync(10)
+    //const hash = bcrypt.hashSync(req.body.password, salt)
+
+    
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(req.body.password, salt)
+
+const user = {
+    username: req.body.username,
+    passwordHash: hash
+}
+const createdUser = await knex('users').insert(user).returning('id')
+console.log(user)
+user.id = createdUser[0].id
+//console.log(user)
+res.json(user)
 
 })
-
 
 //login
 
@@ -120,8 +128,12 @@ app.post('/login', async (req, res) => {
     }
 
     const expPassword = dbUser.passwordHash
-    if (!expPassword || expPassword !== user.password) {
+    const correct = await bcrypt.compare(user.password, expPassword).then(result => result)
+    console.log('correct', correct)
+    
+    if (!expPassword || !correct) {
         res.status(401).end()
+        return
     }
 
     const sessionToken = crypto.randomUUID()
@@ -137,6 +149,7 @@ app.post('/login', async (req, res) => {
     res.end()
 })
 
+
 app.use(function (req, res, next) {
     getAuthenticatedUser(req)
         .then(user => {
@@ -150,6 +163,14 @@ app.use(function (req, res, next) {
 })
 
 //Tästä käsittelee erillisten tuotteiden lisäykset, muokkaukset ja poistot.
+app.get('/user/me', async (req, res) => {
+    const name = req.user.username
+    console.log('username back', name)
+
+    res.json({ name })
+})
+
+
 
 app.get('/tuotteet/:listId', async (req, res) => {
     try {
@@ -176,29 +197,29 @@ app.put('/tuote/:id', async (req, res) => {
     const id = Number(req.params.id)
     let lista
     let listId
-    try{
-     const rows = await knex.select('listId').from('items').where('id', id)
-     listId = rows[0].listId
-    }catch(err){
-        console.log('listID',err)
-        
+    try {
+        const rows = await knex.select('listId').from('items').where('id', id)
+        listId = rows[0].listId
+    } catch (err) {
+        console.log('listID', err)
+
     }
     console.log('list id', listId)
-    
-    try{
-     lista = await getProducts(listId)
-    }catch(err){
+
+    try {
+        lista = await getProducts(listId)
+    } catch (err) {
         console.log('getProducts update', err)
     }
-    
+
     const prodToChange = lista.find(prod => prod.id === id)
     if (!prodToChange) {
         res.status(404).end()
         return
     }
-    
+
     await knex('items').update(req.body).where('id', id)
-    
+
     Object.assign(prodToChange, req.body)
     res.json(prodToChange)
 })
@@ -250,7 +271,7 @@ app.delete('/lista/:id', async (req, res) => {
             sharedToUserId: req.user.id
         }).del()
     }
-    
+
     res.json({ id })
 })
 

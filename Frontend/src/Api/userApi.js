@@ -36,3 +36,10 @@ export const logoutUser = (username) => {
         
     })
 }
+
+export const getMe = () => {
+    return request({
+        method:"GET",
+        url:"user/me"
+    })
+}
