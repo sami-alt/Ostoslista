@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const crypto = require('node:crypto')
+const { log } = require('node:console')
 
 const knex = require('knex')({
     client: 'better-sqlite3',
@@ -38,6 +39,10 @@ const getLists = (id) => {
     return knex.select('*').from('lists').where('owner', id).orWhereExists(
         knex.select('*').from('sharedList').whereColumn('sharedListId', 'lists.id').andWhere('sharedToUserId', id)
     )
+}
+
+const getListById = (listId) => {
+    return knex.select('*').from('lists').where('id', listId)
 }
 
 const getUser = async (username) => {
@@ -216,11 +221,29 @@ app.post('/lista', async (req, res) => {
 })
 
 app.delete('/lista/:id', async (req, res) => {
+    let listUser
+    let usersLists
     const id = Number(req.params.id)
-    await knex('items').where('listId', id).del()
-    await knex('lists').where('id', id).del()
-
+    const list = await getListById(id)
+    const isOwnList = list.owner === req.user.id
+    if (isOwnList) {
+        await knex('items').where('listId', id).del()
+        await knex('lists').where('id', id).del()
+    } else {
+        await knex('sharedList').where({
+            sharedListId: id,
+            sharedToUserId: req.user.id
+        }).del()
+    }
+    
     res.json({ id })
+})
+
+app.delete('/shared-list/:listId/:userId', async (req, res) => {
+    const listId = Number(req.params.listId)
+    const userId = Number(req.params.userId)
+    await knex('sharedList').where('sharedListId', listId).andWhere('sharedToUserId', userId).del()
+        .catch(err => console.log(err))
 })
 
 app.post('/sharelist', async (req, res) => {
@@ -241,7 +264,8 @@ app.post('/sharelist', async (req, res) => {
 })
 
 
-//Käyttäjän autentkikointi
+
+//Käyttäjän autentikointi
 
 
 app.get('/auth', (req, res) => {

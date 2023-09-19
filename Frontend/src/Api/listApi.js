@@ -42,3 +42,10 @@ export const shareList = (toUserName, listId) => {
         }
     })
 }
+
+export const delSharedList = (userId, listId) => {
+    return request({
+        method: " DELETE",
+        url:'shared-list/' + listId + '/' + userId
+    })
+}

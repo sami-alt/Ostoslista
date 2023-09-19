@@ -40,7 +40,7 @@ const ShareList = (props) => {
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Jaa lista käyttäjälle</DialogTitle>
                 <DialogContentText>
-                    <TextField variant="filled" label="Listan nimi" value={shareTo} onChange={handleInput}></TextField>
+                    <TextField variant="filled" label="Käyttäjän nimi" value={shareTo} onChange={handleInput}></TextField>
                 </DialogContentText>
                 <DialogActions>
                     <Button onClick={share} >Jaa</Button>
