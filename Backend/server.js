@@ -174,14 +174,31 @@ app.post('/tuote/', async (req, res) => {
 
 app.put('/tuote/:id', async (req, res) => {
     const id = Number(req.params.id)
-    let lista = await getProducts()
+    let lista
+    let listId
+    try{
+     const rows = await knex.select('listId').from('items').where('id', id)
+     listId = rows[0].listId
+    }catch(err){
+        console.log('listID',err)
+        
+    }
+    console.log('list id', listId)
+    
+    try{
+     lista = await getProducts(listId)
+    }catch(err){
+        console.log('getProducts update', err)
+    }
+    
     const prodToChange = lista.find(prod => prod.id === id)
     if (!prodToChange) {
         res.status(404).end()
         return
     }
-
+    
     await knex('items').update(req.body).where('id', id)
+    
     Object.assign(prodToChange, req.body)
     res.json(prodToChange)
 })
@@ -221,8 +238,6 @@ app.post('/lista', async (req, res) => {
 })
 
 app.delete('/lista/:id', async (req, res) => {
-    let listUser
-    let usersLists
     const id = Number(req.params.id)
     const list = await getListById(id)
     const isOwnList = list.owner === req.user.id

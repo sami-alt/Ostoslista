@@ -7,6 +7,7 @@ import AddProduct from "./AddProduct";
 import Button from "@mui/material/Button"
 import CheckIcon from "@mui/icons-material/Check"
 import { useParams } from "react-router-dom"
+import "./listIndex.css"
 
 const ListComponent = () => {
     const [proList, setproList] = useState([])
@@ -24,7 +25,8 @@ const ListComponent = () => {
                     ...tuote,
                     ...changes,
                 }
-            
+                console.log('changes front', changes)
+                
                 updateProduct(tuote.id, changes)
 
                 return newTuote
@@ -74,7 +76,7 @@ const ListComponent = () => {
     ))
 
     return (
-        <List>
+        <List className="list">
             <ul>{list}
                 <ListItem>
                     <AddProduct onProductAdded={alteredListNew} id={id} />
