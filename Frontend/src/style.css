@@ -1,9 +1,22 @@
 
-.app {
+body {
     background: repeating-linear-gradient(-45deg, rgb(51,49,49), black 1px);
     display: flex;
     min-width: 100vh;
     min-height: 100vh;
+}
+
+header {
+    position: absolute;
+    top: 1px;
+    right: 5px;
+}
+
+footer{
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    color: white;
 }
 
 .text-field {
@@ -32,5 +45,9 @@
 }
 
 #h1 {
+    color:aliceblue;
+}
+
+.username{
     color:aliceblue;
 }

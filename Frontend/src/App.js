@@ -1,21 +1,24 @@
-import ListComponent from "./Pages/ShoppingList/index";
-import "./style.css";
 import { Routes, Route, Link } from "react-router-dom";
+import Drawer from '@mui/material/Drawer'
+import ListComponent from "./Pages/ShoppingList/index";
 import Home from "./Pages/Home";
 import LoginPage from "./Pages/Login";
 import MyLists from "./Pages/MyLists";
 import CreateUser from "./Pages/CreateUser";
 import Logout from "./Pages/Logout";
 import Me from "./userName";
+import "./style.css";
 
 function App() {
   return (
-    <div className="app">
+    <body>
       <header>
         <Logout />
-        <Me/> 
+        <Me />
       </header>
+    
       <nav>
+        <Drawer open={false}>
         <ul>
           <li>
             <Link className="list-color" to="/">Kotiin</Link>
@@ -30,8 +33,9 @@ function App() {
             <Link className="list-color" to="/MyLists">Listat</Link>
           </li>
         </ul>
+        </Drawer>
       </nav>
-
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Login" element={<LoginPage />} />
@@ -40,7 +44,12 @@ function App() {
         <Route path="/MyLists" element={<MyLists />} />
         <Route path="/Logout" element={<Logout />} />
       </Routes>
-    </div>
+
+      <footer>
+          <p>Samin kauppalista sovellus</p>
+      </footer>
+
+    </body>
   );
 }
 

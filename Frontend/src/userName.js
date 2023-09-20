@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { getMe } from "./Api/userApi"
+import './style.css'
 
 const Me = () => {
     const [username, setUsername] = useState('')
@@ -7,7 +8,7 @@ const Me = () => {
     console.log(username)
     
     return (
-        <p >{!username ? '' : username}</p>
+        <p className="username" >{!username ? '' : username}</p>
     )
 }
 
