@@ -1,14 +1,19 @@
 import Box from "@mui/material/Box"
-import  {TextField}  from "@mui/material"
+import { TextField } from "@mui/material"
 import Button from "@mui/material/Button"
 import { useState } from "react"
 import { newUser } from "../../Api/userApi"
+import { useNavigate } from "react-router-dom"
+import './indexCreate.css'
+
+
 
 const CreateUser = () => {
-    const [userName ,setUsername] = useState('')
-    const [passWord ,setPassword] = useState('')
-    const [confirm ,setConfirm]   = useState('')
-    
+    const [userName, setUsername] = useState('')
+    const [passWord, setPassword] = useState('')
+    const [confirm, setConfirm] = useState('')
+    const nav = useNavigate()
+
     const handleUser = (event) => {
         setUsername(event.target.value)
     }
@@ -17,36 +22,50 @@ const CreateUser = () => {
         setPassword(event.target.value)
     }
 
-    const handleConfirm  = (event) => {
+    const handleConfirm = (event) => {
         setConfirm(event.target.value)
     }
 
     const confirmPassword = () => {
-        if(passWord !== confirm){
+        if (passWord === '') {
+            alert('Salasana puuttuu')
+            return false
+        }
+        if (confirm === '') {
+            alert('Kirjoita salasana uudelleen')
+            return false
+        }
+        if (passWord !== confirm) {
             alert('Salasanat eivät täsmää!')
-            return
-        } 
+            return false
+        }
+        return true
     }
 
-    const confirmUsername = () =>{
-
+    const confirmUsername = () => {
+        if (userName === '') {
+            alert('Käyttäjä nimi puuttuu')
+            return false
+        }
+        return true
     }
 
     const create = () => {
-        confirmUsername()
-        confirmPassword()
-        newUser(userName, passWord).then((result) => {
-            console.log(userName, passWord)
-        })
+        if (confirmUsername() || confirmPassword()) {
+            newUser(userName, passWord).then((result) => {
+                console.log(userName, passWord, 'new user and password')
+                nav('/')
+            })
+        }
     }
 
     return (
         <Box component="form" type="submit" >
-            <div>
+            <div className="parrent">
                 <TextField label="Käyttäjä" className="input-text-field" onChange={handleUser}></TextField>
                 <TextField type="password" label="Salasana" className="input-text-field" onChange={handelePassWord} ></TextField>
                 <TextField type="password" label="Salasana" className="input-text-field" onChange={handleConfirm} ></TextField>
-                <Button onClick={create}> Olen tässsä</Button>
+                <Button className="button" onClick={create}> Luo käyttäjä</Button>
             </div>
         </Box>
     )

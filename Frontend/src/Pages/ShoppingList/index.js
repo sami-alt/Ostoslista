@@ -64,8 +64,8 @@ const ListComponent = () => {
     }
 
     const list = proList.map((product) => (
-        <ListItem key={product.id}>
-            <TextField className="text-field" style={{
+        <ListItem key={product.id} className="page">
+            <TextField  style={{
                 textDecoration: product.done === 1 ? 'line-through' : 'none',
             }} defaultValue={product.product} onBlur={(event) => onProductChange(product, event)}></TextField>
             <ButtonGroup>

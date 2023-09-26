@@ -3,6 +3,8 @@ import { TextField } from "@mui/material/"
 import Button from "@mui/material/Button"
 import { useState } from "react"
 import { loginUser } from "../../Api/userApi"
+import {Link} from "react-router-dom"
+import './indexLogin.css'
 
 const LoginPage = () => {
     const [userName, setUsername] = useState('')
@@ -25,10 +27,13 @@ const LoginPage = () => {
 
     return (
         <Box>
-            <div>
+            <div className="parrent">
                 <TextField className="input-text-field"  label="käyttäjä" onChange={handleUsername} />
                 <TextField className="input-text-field" type="password" label="Salasana" onChange={handelePassWord} />
-                <Button style={{backgroundColor:"blue"}} onClick={loginHandle}>Kirjadu</Button>            
+                <Button className="button"  onClick={loginHandle}>Kirjadu</Button>  
+                <li>
+              <Link className="list-color" to="/CreateUser" >Luo Käyttäjä</Link>
+            </li>          
             </div>
         </Box>
     )
