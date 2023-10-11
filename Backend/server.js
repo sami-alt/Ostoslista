@@ -85,11 +85,19 @@ async function getAuthenticatedUser(req) {
 
 //tästä käsittelee käyttäjän lisäykset.
 
-app.post('/user', async (req, res) => {
-    //const salt = bcrypt.genSaltSync(10)
-    //const hash = bcrypt.hashSync(req.body.password, salt)
-
+app.post('/username',async(req, res) => {
+    const name = req.body.username
+    console.log('username', name)
     
+    const [exists] = await knex('users').count('* as count').where('username',name)
+    if (exists.count > 0) {
+        res.json(true)
+    } else {
+        res.json(false)
+    }
+})
+
+app.post('/user', async (req, res) => {
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(req.body.password, salt)
 
@@ -104,6 +112,8 @@ user.id = createdUser[0].id
 res.json(user)
 
 })
+
+
 
 //login
 

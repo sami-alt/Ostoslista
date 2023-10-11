@@ -10,61 +10,61 @@ import { useParams } from "react-router-dom"
 import "./listIndex.css"
 
 const ListComponent = () => {
-    const [proList, setproList] = useState([])
+    const [productList, setproductList] = useState([])
     const { id } = useParams()
 
     useEffect(() => {
-        getProducts(id).then((response) => (setproList(response.data)))
+        getProducts(id).then((response) => (setproductList(response.data)))
     }, [id])
 
-    const onProductChange = (tuote, event) => {
-        const newList = proList.map(originalTuote => {
-            if (tuote.id === originalTuote.id) {
+    const onProductChange = (product, event) => {
+        const newList = productList.map(originalProduct => {
+            if (product.id === originalProduct.id) {
                 const changes = { product: event.target.value, done: 0 }
-                const newTuote = {
-                    ...tuote,
+                const newProduct = {
+                    ...product,
                     ...changes,
                 }
                 console.log('changes front', changes)
                 
-                updateProduct(tuote.id, changes)
+                updateProduct(product.id, changes)
 
-                return newTuote
+                return newProduct
             } else {
-                return originalTuote
+                return originalProduct
             }
         })
-        setproList(newList)
+        setproductList(newList)
     }
 
-    const handleDone = (prodDone) => {
-        const newList = proList.map(prod => {
-            if (prodDone.id === prod.id) {
-                const doneProd = {
-                    ...prod,
+    const handleDone = (productDone) => {
+        const newList = productList.map(product => {
+            if (productDone.id === product.id) {
+                const doneProduct = {
+                    ...product,
                     done: 1
                 }
-                updateProduct(prodDone.id, { done: doneProd.done })
-                return doneProd
+                updateProduct(productDone.id, { done: doneProduct.done })
+                return doneProduct
             } else {
-                return prod
+                return product
             }
         })
-        setproList(newList)
+        setproductList(newList)
     }
 
     const alteredListNew = (newProduct) => {
-        const newList = proList.concat(newProduct)
-        return setproList(newList)
+        const newList = productList.concat(newProduct)
+        return setproductList(newList)
     }
 
     const alteredListDel = (deletedId) => {
-        const newList = proList.filter(product => product.id !== deletedId)
-        return setproList(newList)
+        const newList = productList.filter(product => product.id !== deletedId)
+        return setproductList(newList)
     }
 
-    const list = proList.map((product) => (
-        <ListItem key={product.id} className="page">
+    const list = productList.map((product) => (
+        <ListItem key={product.id} >
             <TextField  style={{
                 textDecoration: product.done === 1 ? 'line-through' : 'none',
             }} defaultValue={product.product} onBlur={(event) => onProductChange(product, event)}></TextField>

@@ -26,13 +26,11 @@ function App() {
       </header>
 
       <nav>
-        
-        <Drawer open={drawer} className="drawer">
+        <Drawer open={drawer}>
           <ul>
             <li>
               <Link className="list-color" to="/" onClick={() => setDrawer(false)} >Kotiin</Link>
             </li>
-            
             <li>
               <Link className="list-color" to="/Login" onClick={() => setDrawer(false)}>Kirjadu</Link>
             </li>
@@ -40,16 +38,16 @@ function App() {
               <Link className="list-color" to="/MyLists" onClick={() => setDrawer(false)}>Listat</Link>
             </li>
           </ul>
-        </Drawer>
+        </Drawer >
       </nav>
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Login" element={<LoginPage />} />
-          <Route path="/Logout" element={<Logout />} />
           <Route path="/CreateUser" element={<CreateUser />} />
           <Route path="/ShoppingList/:id" element={<ListComponent />} />
           <Route path="/MyLists" element={<MyLists />} />
+          <Route path="/Logout" element={<Logout />} />
         </Routes>
       </main>
       <footer>

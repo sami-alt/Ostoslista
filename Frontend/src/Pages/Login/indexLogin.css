@@ -1,8 +1,9 @@
 .parrent {
-    position: relative;
-    top:25%;
     display: flex;
     flex-direction: column;
+    top:25%;
+    align-items: center;
+    gap:2px;
 }
 
 .parrent > .input-text-field {
@@ -10,13 +11,20 @@
     border-radius: 5px;
     background-color: white;
     width: 60%;
-    right: 15%;
-    left: 15%;
-    display: flex;
-    flex-direction: column;
 }
 
-.parrent > button {
-    position: relative;
+.parrent > .button {
+    left:0px;
     background-color: yellow;
+}
+
+.parrent > li {
+    list-style: none;
+}
+
+
+.parrent > .link {
+    position: relative;
+    list-style: none;
+    color: black;
 }

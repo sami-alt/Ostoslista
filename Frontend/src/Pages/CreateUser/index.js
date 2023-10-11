@@ -2,7 +2,7 @@ import Box from "@mui/material/Box"
 import { TextField } from "@mui/material"
 import Button from "@mui/material/Button"
 import { useState } from "react"
-import { newUser } from "../../Api/userApi"
+import { newUser, usernameCheck } from "../../Api/userApi"
 import { useNavigate } from "react-router-dom"
 import './indexCreate.css'
 
@@ -12,6 +12,7 @@ const CreateUser = () => {
     const [userName, setUsername] = useState('')
     const [passWord, setPassword] = useState('')
     const [confirm, setConfirm] = useState('')
+    const [taken, setTaken] = useState(true)
     const nav = useNavigate()
 
     const handleUser = (event) => {
@@ -50,19 +51,29 @@ const CreateUser = () => {
         return true
     }
 
+    const notTaken = (blurEvent) => {
+        const userName = blurEvent.target.value
+        if(userName === ''){
+            return
+        }
+        usernameCheck(userName).then((result) => result ? alert('Käyttäjänimi on varattu, valitse toinen') : setTaken(result))
+    }
+    
     const create = () => {
-        if (confirmUsername() || confirmPassword()) {
-            newUser(userName, passWord).then((result) => {
+        if (confirmUsername() && confirmPassword() && !taken) {
+            newUser(userName, passWord).then(() => {
                 console.log(userName, passWord, 'new user and password')
                 nav('/')
-            })
+            }) 
+        } else{
+        alert('Käyttäjää ei luotu!')
         }
     }
 
     return (
         <Box component="form" type="submit" >
             <div className="parrent">
-                <TextField label="Käyttäjä" className="input-text-field" onChange={handleUser}></TextField>
+                <TextField label="Käyttäjä" className="input-text-field" onChange={handleUser} onBlur={notTaken} ></TextField>
                 <TextField type="password" label="Salasana" className="input-text-field" onChange={handelePassWord} ></TextField>
                 <TextField type="password" label="Salasana" className="input-text-field" onChange={handleConfirm} ></TextField>
                 <Button className="button" onClick={create}> Luo käyttäjä</Button>

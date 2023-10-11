@@ -12,6 +12,14 @@ export const newUser = (username, password) => {
     })
 }
 
+export const usernameCheck = (username) => {
+    return request({
+        method:"POST",
+        url:"username/",
+        data:{username}
+    })
+}
+
 export const loginUser = (loginInfo) => {
     return request({
         method:"POST",

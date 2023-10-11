@@ -1,4 +1,13 @@
-.list{
+.mylists {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     
-    border-radius: 25px;
+}
+
+.mylists > .list{
+    position: relative;
+    
+    background-color: white;
+    
 }

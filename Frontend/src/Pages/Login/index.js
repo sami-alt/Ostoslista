@@ -32,7 +32,7 @@ const LoginPage = () => {
                 <TextField className="input-text-field" type="password" label="Salasana" onChange={handelePassWord} />
                 <Button className="button"  onClick={loginHandle}>Kirjadu</Button>  
                 <li>
-              <Link className="list-color" to="/CreateUser" >Luo Käyttäjä</Link>
+              <Link className="link" to="/CreateUser" >Luo Käyttäjä</Link>
             </li>          
             </div>
         </Box>

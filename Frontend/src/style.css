@@ -9,7 +9,7 @@ body {
 }
 
 header {
-    position: sticky;
+    position: relative;
     width: 100%;
     top: 0px;
     border: solid 2px black;
@@ -19,6 +19,7 @@ header {
     flex-direction: row;
     justify-content: space-between;
     background-color: yellow;
+    padding: 0px;
 }
 
 header > * {
@@ -44,7 +45,9 @@ header > *:nth-child(3) {
 main{
     height: 100vh;
     width: 100%;
-    position: fixed;   
+    padding: 0;
+    margin: 0;
+       
 }
 
 a.list-color{
@@ -53,9 +56,8 @@ a.list-color{
 
 footer{
     box-sizing: border-box;
-    position: absolute;
+    position: relative;
     width: 100%;
-    
     bottom: 0px;
     border: 2px solid black;
     background-color: yellow;
@@ -63,6 +65,7 @@ footer{
     gap:5px;
     color:white;
     box-sizing: border-box;
+    padding: 0px;
 }
 
 footer > p {
@@ -70,30 +73,6 @@ footer > p {
     left: 40%;
 }
 
-.text-field {
-    background-color: white;
-    border-radius: 5px;
-    width: 70%;
-    right: 10px;
-}
-
-
-
-
-
-.list-text-field {
-    background-color: white;
-    border-radius: 5px;
-}
-
-.list-color{
-    color: aliceblue;
-}
-
-#h1 {
-    color:aliceblue;
-}
-
-.username{
-    color:aliceblue;
+ul {
+    list-style: none;
 }

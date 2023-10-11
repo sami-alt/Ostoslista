@@ -36,10 +36,12 @@ const MyLists = () => {
     ))
     return (
         <Box  >
+            <div className='mylists'>
             <List className='list'>
                 <ul>{lists}</ul>
             </List>
-            <AddList onListAdded={newList} />
+            <AddList className='input' onListAdded={newList} />
+            </div>
         </Box>
     )
 
