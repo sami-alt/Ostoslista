@@ -7,7 +7,6 @@ const crypto = require('node:crypto')
 const { log } = require('node:console')
 const bcrypt = require('bcryptjs')
 
-
 const knex = require('knex')({
     client: 'better-sqlite3',
     connection: {
@@ -27,7 +26,6 @@ const corsOptions = {
     },
     credentials: true,
 };
-
 
 app.use(cors(corsOptions))
 app.use(bodyParser.json())
@@ -59,15 +57,12 @@ const getSession = (id) => {
     return knex.select('token').from('sessions').where('userId', id)
 }
 
-
 app.get('/', (req, res) => {
     res.send('Ostoslista')
 })
 
-
 async function getAuthenticatedUser(req) {
     const cookies = req.cookies
-    //console.log('cookies', cookies);
     const sessionToken = cookies.session_token
     if (!sessionToken) {
         throw new Error('Not logged in')
@@ -82,14 +77,12 @@ async function getAuthenticatedUser(req) {
     return user
 }
 
-
 //tästä käsittelee käyttäjän lisäykset.
 
 app.post('/username',async(req, res) => {
     const name = req.body.username
-    console.log('username', name)
-    
     const [exists] = await knex('users').count('* as count').where('username',name)
+
     if (exists.count > 0) {
         res.json(true)
     } else {
@@ -108,12 +101,8 @@ const user = {
 const createdUser = await knex('users').insert(user).returning('id')
 console.log(user)
 user.id = createdUser[0].id
-//console.log(user)
 res.json(user)
-
 })
-
-
 
 //login
 
@@ -139,7 +128,6 @@ app.post('/login', async (req, res) => {
 
     const expPassword = dbUser.passwordHash
     const correct = await bcrypt.compare(user.password, expPassword).then(result => result)
-    console.log('correct', correct)
     
     if (!expPassword || !correct) {
         res.status(401).end()
@@ -152,13 +140,10 @@ app.post('/login', async (req, res) => {
         token: sessionToken,
         userId: dbUser.id,
     }
-
     await knex('sessions').insert(session).returning('created_at')
-
     res.cookie('session_token', sessionToken)
     res.end()
 })
-
 
 app.use(function (req, res, next) {
     getAuthenticatedUser(req)
@@ -175,12 +160,8 @@ app.use(function (req, res, next) {
 //Tästä käsittelee erillisten tuotteiden lisäykset, muokkaukset ja poistot.
 app.get('/user/me', async (req, res) => {
     const name = req.user.username
-    console.log('username back', name)
-
     res.json({ name })
 })
-
-
 
 app.get('/tuotteet/:listId', async (req, res) => {
     try {
@@ -214,8 +195,7 @@ app.put('/tuote/:id', async (req, res) => {
         console.log('listID', err)
 
     }
-    console.log('list id', listId)
-
+    
     try {
         lista = await getProducts(listId)
     } catch (err) {
@@ -244,16 +224,12 @@ app.delete('/tuote/:id', async (req, res) => {
 
 app.get('/listat', async (req, res) => {
     const user = req.user;
-    //console.log('user:', user);
     try {
         const lists = await getLists(user.id)
         res.json(lists)
-        console.log('aaaa', lists)
     } catch (err) {
-        console.log('err', err)
         res.status(500).json({ error: String(err) })
     }
-
 })
 
 app.post('/lista', async (req, res) => {
@@ -261,10 +237,8 @@ app.post('/lista', async (req, res) => {
         name: req.body.name,
         owner: req.user.id
     }
-    //console.log(list)
     const createdList = await knex('lists').insert(list).returning('id')
     list.id = createdList[0].id
-    //console.log(list)
     res.json(list)
 })
 
@@ -281,7 +255,6 @@ app.delete('/lista/:id', async (req, res) => {
             sharedToUserId: req.user.id
         }).del()
     }
-
     res.json({ id })
 })
 
@@ -294,7 +267,6 @@ app.delete('/shared-list/:listId/:userId', async (req, res) => {
 
 app.post('/sharelist', async (req, res) => {
     const sharedToListId = Number(req.body.listId)
-    console.log('käyttäjä', req.body.toUserName)
     const [sharedToUserId] = await knex('users').where('username', req.body.toUserName).select('id')
     console.log(sharedToUserId, 'aaaa')
     try {
@@ -309,10 +281,7 @@ app.post('/sharelist', async (req, res) => {
 
 })
 
-
-
 //Käyttäjän autentikointi
-
 
 app.get('/auth', (req, res) => {
     if (!req.cookies) {
@@ -330,7 +299,6 @@ app.get('/auth', (req, res) => {
     if (!userSession) {
         res.status(401).end()
         return
-
     }
 })
 

@@ -6,8 +6,6 @@ import { newUser, usernameCheck } from "../../Api/userApi"
 import { useNavigate } from "react-router-dom"
 import './indexCreate.css'
 
-
-
 const CreateUser = () => {
     const [userName, setUsername] = useState('')
     const [passWord, setPassword] = useState('')
