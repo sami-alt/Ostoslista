@@ -7,21 +7,30 @@ import LoginPage from "./Pages/Login";
 import MyLists from "./Pages/MyLists";
 import CreateUser from "./Pages/CreateUser";
 import Logout from "./Pages/Logout";
-import Me from "./userName";
 import "./style.css";
 import { Button } from "@mui/material";
 import { useState } from "react";
+import { useEffect } from "react";
+import { getMe } from "./Api/userApi"
 
 function App() {
   const [drawer, setDrawer] = useState(false)
+  const [num, setNum] = useState(1)
+  const [username, setUsername] = useState('')
+  useEffect(()=> {
+    getMe().then(response => setUsername(response.data.name)).catch((err) => {setUsername('')
+    console.log('logout',err)
+    })
+
+},[num])
   return (
     <body>
       <header>
      <div> <Button onClick={() => setDrawer(true)} ><EastIcon/></Button></div>
         <div>Logo</div>
         <div className="this">
-          <Me />
-          <Logout />
+         <p className="username" >{!username ? '' : username}</p>
+          <Logout onLogout={()=>setNum(num+1)} />
         </div>
       </header>
 
@@ -43,7 +52,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/Login" element={<LoginPage />} />
+          <Route path="/Login" element={<LoginPage onLogin={()=>{setNum(num + 1)}} />} />
           <Route path="/CreateUser" element={<CreateUser />} />
           <Route path="/ShoppingList/:id" element={<ListComponent />} />
           <Route path="/MyLists" element={<MyLists />} />

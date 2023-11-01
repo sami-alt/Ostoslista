@@ -4,9 +4,12 @@ import Button from "@mui/material/Button"
 import { useState } from "react"
 import { loginUser } from "../../Api/userApi"
 import {Link} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import './indexLogin.css'
 
-const LoginPage = () => {
+
+const LoginPage = (props) => {
+    const nav = useNavigate()
     const [userName, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -18,11 +21,13 @@ const LoginPage = () => {
         setPassword(event.target.value)
     }
 
-    const loginHandle = async (event) => {
+    const loginHandle = async () => {
         await loginUser({
             username: userName,
             password
         })
+        props.onLogin()
+        nav('/')
     }
 
     return (
