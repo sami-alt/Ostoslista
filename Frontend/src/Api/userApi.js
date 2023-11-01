@@ -29,13 +29,7 @@ export const loginUser = (loginInfo) => {
     })
 }
 
-export const getToken = () => {
-    return request({
-        method: "GET",
-        url:"auth/"
 
-    })
-}
 
 export const logoutUser = (username) => {
     return request({

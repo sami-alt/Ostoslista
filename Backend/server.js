@@ -281,27 +281,6 @@ app.post('/sharelist', async (req, res) => {
 
 })
 
-//Käyttäjän autentikointi
-
-app.get('/auth', (req, res) => {
-    if (!req.cookies) {
-        res.status(401).end()
-        return
-    }
-
-    const sessionToken = req.cookies['session_token']
-    if (!sessionToken) {
-        res.status(401).end()
-        return
-    }
-
-    userSession = getSession(req.params.id)
-    if (!userSession) {
-        res.status(401).end()
-        return
-    }
-})
-
 app.get('/logout', async (req, res) => {
     if (!req.cookies) {
         res.status(401).end()

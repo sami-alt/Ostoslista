@@ -1,4 +1,4 @@
-import { Routes, Route, Link} from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import Drawer from '@mui/material/Drawer'
 import EastIcon from '@mui/icons-material/East';
 import ListComponent from "./Pages/ShoppingList/index";
@@ -17,20 +17,20 @@ function App() {
   const [drawer, setDrawer] = useState(false)
   const [num, setNum] = useState(1)
   const [username, setUsername] = useState('')
-  useEffect(()=> {
-    getMe().then(response => setUsername(response.data.name)).catch((err) => {setUsername('')
-    console.log('logout',err)
+  useEffect(() => {
+    getMe().then(response => setUsername(response.data.name)).catch((err) => {
+      setUsername('')
+      console.log('logout', err)
     })
 
-},[num])
-  return (
-    <body>
+  }, [num])
+  return (<>
       <header>
-     <div> <Button onClick={() => setDrawer(true)} ><EastIcon/></Button></div>
+        <div> <Button onClick={() => setDrawer(true)} ><EastIcon /></Button></div>
         <div>Logo</div>
         <div className="this">
-         <p className="username" >{!username ? '' : username}</p>
-          <Logout onLogout={()=>setNum(num+1)} />
+          <p className="username" >{!username ? '' : username}</p>
+          <Logout onLogout={() => setNum(num + 1)} />
         </div>
       </header>
 
@@ -52,7 +52,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/Login" element={<LoginPage onLogin={()=>{setNum(num + 1)}} />} />
+          <Route path="/Login" element={<LoginPage onLogin={() => { setNum(num + 1) }} />} />
           <Route path="/CreateUser" element={<CreateUser />} />
           <Route path="/ShoppingList/:id" element={<ListComponent />} />
           <Route path="/MyLists" element={<MyLists />} />
@@ -64,7 +64,7 @@ function App() {
         <p>url</p>
         <p>s-posti osoite</p>
       </footer>
-    </body>
+      </>
   );
 }
 
