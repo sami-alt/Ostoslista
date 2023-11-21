@@ -149,7 +149,6 @@ app.use(function (req, res, next) {
     getAuthenticatedUser(req)
         .then(user => {
             req.user = user;
-            // console.log('waaa', user)
             next(null, req);
         }, err => {
             console.error('fail', err)

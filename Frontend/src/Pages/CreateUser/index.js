@@ -4,7 +4,7 @@ import Button from "@mui/material/Button"
 import { useState } from "react"
 import { newUser, usernameCheck } from "../../Api/userApi"
 import { useNavigate } from "react-router-dom"
-import './indexCreate.css'
+import '../../style.css'
 
 const CreateUser = () => {
     const [userName, setUsername] = useState('')
@@ -70,11 +70,12 @@ const CreateUser = () => {
 
     return (
         <Box component="form" type="submit" >
-            <div className="parrent">
+            <div className="userForms">
                 <TextField label="Käyttäjä" className="input-text-field" onChange={handleUser} onBlur={notTaken} ></TextField>
                 <TextField type="password" label="Salasana" className="input-text-field" onChange={handelePassWord} ></TextField>
                 <TextField type="password" label="Salasana" className="input-text-field" onChange={handleConfirm} ></TextField>
                 <Button className="button" onClick={create}> Luo käyttäjä</Button>
+                <Button className="button" onClick={()=> nav('/')}>Takaisin</Button>
             </div>
         </Box>
     )

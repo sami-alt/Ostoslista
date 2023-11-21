@@ -6,12 +6,13 @@ import Delete from "./deleteItem"
 import AddProduct from "./AddProduct";
 import Button from "@mui/material/Button"
 import CheckIcon from "@mui/icons-material/Check"
-import { useParams } from "react-router-dom"
-import "./listIndex.css"
+import { useParams, useNavigate } from "react-router-dom"
+import "../../style.css"
 
 const ListComponent = () => {
     const [productList, setproductList] = useState([])
     const { id } = useParams()
+    const nav = useNavigate()
 
     useEffect(() => {
         getProducts(id).then((response) => (setproductList(response.data)))
@@ -64,7 +65,7 @@ const ListComponent = () => {
     }
 
     const list = productList.map((product) => (
-        <ListItem key={product.id} >
+        <ListItem key={product.id} sx={{display: 'list-item'}}>
             <TextField  style={{
                 textDecoration: product.done === 1 ? 'line-through' : 'none',
             }} defaultValue={product.product} onBlur={(event) => onProductChange(product, event)}></TextField>
@@ -74,14 +75,14 @@ const ListComponent = () => {
             </ButtonGroup>
         </ListItem>
     ))
-
+    
     return (
-        <List className="list">
-            <ul>{list}
-                <ListItem>
-                    <AddProduct onProductAdded={alteredListNew} id={id} />
-                </ListItem>
-            </ul>
+        <List className="shoppingList" sx={{listStyleType: 'disc', pl: 4}}>
+            {list}
+            <ListItem className="listItems">
+                <AddProduct onProductAdded={alteredListNew} id={id} />
+                <Button className="button" onClick={()=>nav('/MyLists')}>Takaisin</Button>
+            </ListItem>
         </List>
     )
 }

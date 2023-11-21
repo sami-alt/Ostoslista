@@ -7,7 +7,7 @@ import Box from '@mui/material/Box'
 import Delete from './deleteList'
 import Sharelist from './shareList'
 import { Link } from "react-router-dom";
-import "./lists.css"
+import "../../style.css"
 
 const MyLists = () => {
     const [allLists, setAllLists] = useState([])
