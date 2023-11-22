@@ -28,7 +28,7 @@ const MyLists = () => {
     }
 
     const lists = allLists.map((lists) => (
-        <ListItem key={lists.id}>
+        <ListItem key={lists.id} className='list'>
             <Link to={"/ShoppingList/" + lists.id}>{lists.name}</Link>
             <Sharelist id={lists.id} />
             <Delete onDelete={removeList} id={lists.id} />
@@ -36,8 +36,8 @@ const MyLists = () => {
     ))
     return (
         <Box  >
-            <div className='mylists'>
-            <List className='list'>
+            <div className='list'>
+            <List>
                 <ul>{lists}</ul>
             </List>
             <AddList className='input' onListAdded={newList} />

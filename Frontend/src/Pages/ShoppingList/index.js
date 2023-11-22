@@ -1,7 +1,7 @@
 import { getProducts, updateProduct } from "../../Api/productApi"
 import React, { useEffect, useState } from "react"
 import List from '@mui/material/List'
-import { ButtonGroup, ListItem, TextField } from "@mui/material"
+import { ButtonGroup, ListItem, /*TextField*/ } from "@mui/material"
 import Delete from "./deleteItem"
 import AddProduct from "./AddProduct";
 import Button from "@mui/material/Button"
@@ -11,6 +11,7 @@ import "../../style.css"
 
 const ListComponent = () => {
     const [productList, setproductList] = useState([])
+    const [update, setUpdate] = useState(false)
     const { id } = useParams()
     const nav = useNavigate()
 
@@ -36,6 +37,7 @@ const ListComponent = () => {
             }
         })
         setproductList(newList)
+        setUpdate(false)
     }
 
     const handleDone = (productDone) => {
@@ -65,10 +67,10 @@ const ListComponent = () => {
     }
 
     const list = productList.map((product) => (
-        <ListItem key={product.id} sx={{display: 'list-item'}}>
-            <TextField  style={{
-                textDecoration: product.done === 1 ? 'line-through' : 'none',
-            }} defaultValue={product.product} onBlur={(event) => onProductChange(product, event)}></TextField>
+        <ListItem key={product.id} >
+            <input  style={{
+                textDecoration: product.done === 1 ? 'line-through' : 'none',  border: update ? 1 : 0
+            }} defaultValue={product.product} onBlur={(event) => onProductChange(product, event)}onClick={()=>setUpdate(true)} ></input>
             <ButtonGroup>
                 <Button variant="contained" size="small" id={product.id} onClick={(event => handleDone(product, event))} startIcon={<CheckIcon />}  > </Button>
                 <Delete onProductDelete={alteredListDel} id={product.id} />
@@ -77,9 +79,9 @@ const ListComponent = () => {
     ))
     
     return (
-        <List className="shoppingList" sx={{listStyleType: 'disc', pl: 4}}>
+        <List className="list" sx={{listStyleType: 'disc', pl: 4}}>
             {list}
-            <ListItem className="listItems">
+            <ListItem >
                 <AddProduct onProductAdded={alteredListNew} id={id} />
                 <Button className="button" onClick={()=>nav('/MyLists')}>Takaisin</Button>
             </ListItem>
