@@ -59,9 +59,9 @@ function App() {
         </Routes>
       </main>
       <footer>
+        <p>samiraiha.fi</p>
         <p>Samin kauppalista sovellus</p>
-        <p>url</p>
-        <p>s-posti osoite</p>
+        <p>sami.raiha94@gmail.com</p>
       </footer>
       </>
   );

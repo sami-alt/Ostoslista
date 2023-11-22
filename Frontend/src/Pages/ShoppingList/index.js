@@ -74,16 +74,16 @@ const ListComponent = () => {
         </li>
     ))
     
-    return (
-        <ul className="list" sx={{listStyleType: 'disc', pl: 4}}>
+    return (<div className="center">
+        <ul className="list" >
             {list}
             <li>
-                <div id="addList">
+                <div className="addList">
                 <AddProduct onProductAdded={alteredListNew} id={id} />
                 </div>
             </li>
                 <button className="button" onClick={()=>nav('/MyLists')}>Takaisin</button>
-        </ul>
+        </ul></div>
     )
 }
 

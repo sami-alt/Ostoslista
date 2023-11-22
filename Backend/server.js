@@ -41,8 +41,9 @@ const getLists = (id) => {
     )
 }
 
-const getListById = (listId) => {
-    return knex.select('*').from('lists').where('id', listId)
+const getListById = async (listId) => {
+    const results = await knex.select('*').from('lists').where('id', listId)
+    return results[0]
 }
 
 const getUser = async (username) => {
@@ -242,19 +243,31 @@ app.post('/lista', async (req, res) => {
 })
 
 app.delete('/lista/:id', async (req, res) => {
+    console.log('user',req.user.id)
+    
     const id = Number(req.params.id)
     const list = await getListById(id)
     const isOwnList = list.owner === req.user.id
+    console.log(list,'list')
+    console.log(isOwnList)
+    
+    
     if (isOwnList) {
+        console.log('isown')
+        
         await knex('items').where('listId', id).del()
         await knex('lists').where('id', id).del()
     } else {
+        console.log('else')
+        
         await knex('sharedList').where({
             sharedListId: id,
             sharedToUserId: req.user.id
         }).del()
     }
     res.json({ id })
+    console.log('id',id)
+    
 })
 
 app.delete('/shared-list/:listId/:userId', async (req, res) => {

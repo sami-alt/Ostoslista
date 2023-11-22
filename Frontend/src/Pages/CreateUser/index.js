@@ -75,7 +75,7 @@ const CreateUser = () => {
                 <TextField type="password" label="Salasana" className="input-text-field" onChange={handelePassWord} ></TextField>
                 <TextField type="password" label="Salasana" className="input-text-field" onChange={handleConfirm} ></TextField>
                 <Button className="button" onClick={create}> Luo käyttäjä</Button>
-                <Button className="button" onClick={()=> nav('/')}>Takaisin</Button>
+                <Button className="button" onClick={()=> nav('/Login')}>Takaisin</Button>
             </div>
         </Box>
     )
