@@ -1,6 +1,4 @@
 import { deleteOld } from "../../Api/productApi"
-import Button from "@mui/material/Button"
-import DeleteIcon from "@mui/icons-material/Delete"
 
 const Delete = (props) => {
     const poista = (event) => {
@@ -11,7 +9,7 @@ const Delete = (props) => {
     }
     
     return (
-        <Button variant="contained" size="small" onClick={poista} startIcon={<DeleteIcon />}></Button>
+        <button  className="button" onClick={poista}>poista</button>
     )
 }
 

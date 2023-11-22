@@ -1,11 +1,7 @@
 import { getProducts, updateProduct } from "../../Api/productApi"
 import React, { useEffect, useState } from "react"
-import List from '@mui/material/List'
-import { ButtonGroup, ListItem, /*TextField*/ } from "@mui/material"
 import Delete from "./deleteItem"
 import AddProduct from "./AddProduct";
-import Button from "@mui/material/Button"
-import CheckIcon from "@mui/icons-material/Check"
 import { useParams, useNavigate } from "react-router-dom"
 import "../../style.css"
 
@@ -67,25 +63,27 @@ const ListComponent = () => {
     }
 
     const list = productList.map((product) => (
-        <ListItem key={product.id} >
+        <li key={product.id} >
             <input  style={{
                 textDecoration: product.done === 1 ? 'line-through' : 'none',  border: update ? 1 : 0
             }} defaultValue={product.product} onBlur={(event) => onProductChange(product, event)}onClick={()=>setUpdate(true)} ></input>
-            <ButtonGroup>
-                <Button variant="contained" size="small" id={product.id} onClick={(event => handleDone(product, event))} startIcon={<CheckIcon />}  > </Button>
+            <>
+                <button className="button" variant="contained" size="small" id={product.id} onClick={(event => handleDone(product, event))}>Korissa</button>
                 <Delete onProductDelete={alteredListDel} id={product.id} />
-            </ButtonGroup>
-        </ListItem>
+            </>
+        </li>
     ))
     
     return (
-        <List className="list" sx={{listStyleType: 'disc', pl: 4}}>
+        <ul className="list" sx={{listStyleType: 'disc', pl: 4}}>
             {list}
-            <ListItem >
+            <li>
+                <div id="addList">
                 <AddProduct onProductAdded={alteredListNew} id={id} />
-                <Button className="button" onClick={()=>nav('/MyLists')}>Takaisin</Button>
-            </ListItem>
-        </List>
+                </div>
+            </li>
+                <button className="button" onClick={()=>nav('/MyLists')}>Takaisin</button>
+        </ul>
     )
 }
 
