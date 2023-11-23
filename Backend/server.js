@@ -4,6 +4,8 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const crypto = require('node:crypto')
+const { log } = require('node:console')
+const bcrypt = require('bcryptjs')
 
 const knex = require('knex')({
     client: 'better-sqlite3',
@@ -25,7 +27,6 @@ const corsOptions = {
     credentials: true,
 };
 
-
 app.use(cors(corsOptions))
 app.use(bodyParser.json())
 app.use(cookieParser())
@@ -40,6 +41,11 @@ const getLists = (id) => {
     )
 }
 
+const getListById = async (listId) => {
+    const results = await knex.select('*').from('lists').where('id', listId)
+    return results[0]
+}
+
 const getUser = async (username) => {
     const [user] = await knex.select('passwordHash', 'username', 'id').from('users').where('username', username)
     if (!user) {
@@ -52,15 +58,12 @@ const getSession = (id) => {
     return knex.select('token').from('sessions').where('userId', id)
 }
 
-
 app.get('/', (req, res) => {
     res.send('Ostoslista')
 })
 
-
 async function getAuthenticatedUser(req) {
     const cookies = req.cookies
-    //console.log('cookies', cookies);
     const sessionToken = cookies.session_token
     if (!sessionToken) {
         throw new Error('Not logged in')
@@ -75,22 +78,32 @@ async function getAuthenticatedUser(req) {
     return user
 }
 
-
 //tästä käsittelee käyttäjän lisäykset.
 
-app.post('/user', async (req, res) => {
-    const user = {
-        username: req.body.username,
-        passwordHash: req.body.password
-    }
-    //console.log(user)
-    const createdUser = await knex('users').insert(user).returning('id')
-    user.id = createdUser[0].id
-    //console.log(user)
-    res.json(user)
+app.post('/username',async(req, res) => {
+    const name = req.body.username
+    const [exists] = await knex('users').count('* as count').where('username',name)
 
+    if (exists.count > 0) {
+        res.json(true)
+    } else {
+        res.json(false)
+    }
 })
 
+app.post('/user', async (req, res) => {
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(req.body.password, salt)
+
+const user = {
+    username: req.body.username,
+    passwordHash: hash
+}
+const createdUser = await knex('users').insert(user).returning('id')
+console.log(user)
+user.id = createdUser[0].id
+res.json(user)
+})
 
 //login
 
@@ -105,11 +118,21 @@ app.post('/login', async (req, res) => {
         res.status(401).end()
         return
     }
-    const dbUser = (await getUser(user.username))
-    //console.log(dbUser)
+
+    let dbUser
+    try {
+        dbUser = (await getUser(user.username))
+    } catch (err) {
+        res.status(404).end()
+        return
+    }
+
     const expPassword = dbUser.passwordHash
-    if (!expPassword || expPassword !== user.password) {
+    const correct = await bcrypt.compare(user.password, expPassword).then(result => result)
+    
+    if (!expPassword || !correct) {
         res.status(401).end()
+        return
     }
 
     const sessionToken = crypto.randomUUID()
@@ -118,9 +141,7 @@ app.post('/login', async (req, res) => {
         token: sessionToken,
         userId: dbUser.id,
     }
-
     await knex('sessions').insert(session).returning('created_at')
-
     res.cookie('session_token', sessionToken)
     res.end()
 })
@@ -129,7 +150,6 @@ app.use(function (req, res, next) {
     getAuthenticatedUser(req)
         .then(user => {
             req.user = user;
-            console.log('waaa', user)
             next(null, req);
         }, err => {
             console.error('fail', err)
@@ -138,6 +158,10 @@ app.use(function (req, res, next) {
 })
 
 //Tästä käsittelee erillisten tuotteiden lisäykset, muokkaukset ja poistot.
+app.get('/user/me', async (req, res) => {
+    const name = req.user.username
+    res.json({ name })
+})
 
 app.get('/tuotteet/:listId', async (req, res) => {
     try {
@@ -162,7 +186,22 @@ app.post('/tuote/', async (req, res) => {
 
 app.put('/tuote/:id', async (req, res) => {
     const id = Number(req.params.id)
-    let lista = await getProducts()
+    let lista
+    let listId
+    try {
+        const rows = await knex.select('listId').from('items').where('id', id)
+        listId = rows[0].listId
+    } catch (err) {
+        console.log('listID', err)
+
+    }
+    
+    try {
+        lista = await getProducts(listId)
+    } catch (err) {
+        console.log('getProducts update', err)
+    }
+
     const prodToChange = lista.find(prod => prod.id === id)
     if (!prodToChange) {
         res.status(404).end()
@@ -170,6 +209,7 @@ app.put('/tuote/:id', async (req, res) => {
     }
 
     await knex('items').update(req.body).where('id', id)
+
     Object.assign(prodToChange, req.body)
     res.json(prodToChange)
 })
@@ -184,16 +224,12 @@ app.delete('/tuote/:id', async (req, res) => {
 
 app.get('/listat', async (req, res) => {
     const user = req.user;
-    //console.log('user:', user);
     try {
         const lists = await getLists(user.id)
         res.json(lists)
-        console.log('aaaa', lists)
     } catch (err) {
-        console.log('err', err)
         res.status(500).json({ error: String(err) })
     }
-
 })
 
 app.post('/lista', async (req, res) => {
@@ -201,55 +237,60 @@ app.post('/lista', async (req, res) => {
         name: req.body.name,
         owner: req.user.id
     }
-    //console.log(list)
     const createdList = await knex('lists').insert(list).returning('id')
     list.id = createdList[0].id
-    //console.log(list)
     res.json(list)
 })
 
 app.delete('/lista/:id', async (req, res) => {
+    console.log('user',req.user.id)
+    
     const id = Number(req.params.id)
-    await knex('items').where('listId', id).del()
-    await knex('lists').where('id', id).del()
-
+    const list = await getListById(id)
+    const isOwnList = list.owner === req.user.id
+    console.log(list,'list')
+    console.log(isOwnList)
+    
+    
+    if (isOwnList) {
+        console.log('isown')
+        
+        await knex('items').where('listId', id).del()
+        await knex('lists').where('id', id).del()
+    } else {
+        console.log('else')
+        
+        await knex('sharedList').where({
+            sharedListId: id,
+            sharedToUserId: req.user.id
+        }).del()
+    }
     res.json({ id })
+    console.log('id',id)
+    
+})
+
+app.delete('/shared-list/:listId/:userId', async (req, res) => {
+    const listId = Number(req.params.listId)
+    const userId = Number(req.params.userId)
+    await knex('sharedList').where('sharedListId', listId).andWhere('sharedToUserId', userId).del()
+        .catch(err => console.log(err))
 })
 
 app.post('/sharelist', async (req, res) => {
     const sharedToListId = Number(req.body.listId)
-    console.log('käyttäjä',req.body.toUserName)
-    const [sharedToUserId] = await knex('users').where( 'username',req.body.toUserName).select('id')
-    console.log(sharedToUserId)
-    await knex('sharedlist').insert({
-        sharedToUserId:sharedToUserId.id,
-        sharedListId:sharedToListId
-    })
-   
-})
-
-
-//Käyttäjän autentkikointi
-
-
-app.get('/auth', (req, res) => {
-    if (!req.cookies) {
-        res.status(401).end()
+    const [sharedToUserId] = await knex('users').where('username', req.body.toUserName).select('id')
+    console.log(sharedToUserId, 'aaaa')
+    try {
+        await knex('sharedlist').insert({
+            sharedToUserId: sharedToUserId.id,
+            sharedListId: sharedToListId
+        })
+    } catch (err) {
+        res.status(404).end()
         return
     }
 
-    const sessionToken = req.cookies['session_token']
-    if (!sessionToken) {
-        res.status(401).end()
-        return
-    }
-
-    userSession = getSession(req.params.id)
-    if (!userSession) {
-        res.status(401).end()
-        return
-
-    }
 })
 
 app.get('/logout', async (req, res) => {

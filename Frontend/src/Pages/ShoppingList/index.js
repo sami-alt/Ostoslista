@@ -1,88 +1,90 @@
-import {getProducts, updateProduct} from "../../Api/productApi"
+import { getProducts, updateProduct } from "../../Api/productApi"
 import React, { useEffect, useState } from "react"
-import List from '@mui/material/List' 
-import { ButtonGroup, ListItem, TextField } from "@mui/material"
 import Delete from "./deleteItem"
 import AddProduct from "./AddProduct";
-import Button from "@mui/material/Button"
-import CheckIcon from "@mui/icons-material/Check"
-import { useParams } from "react-router-dom"
-
+import { useParams, useNavigate } from "react-router-dom"
+import "../../style.css"
 
 const ListComponent = () => {
-    const [proList, setproList] = useState([])
-    const {id} = useParams()
+    const [productList, setproductList] = useState([])
+    const [update, setUpdate] = useState(false)
+    const { id } = useParams()
+    const nav = useNavigate()
 
     useEffect(() => {
-        getProducts(id).then((response) => (setproList(response.data)))
+        getProducts(id).then((response) => (setproductList(response.data)))
     }, [id])
-     
-    const onProductChange = (tuote, event) => {
-        const newList = proList.map(originalTuote => {
-            if (tuote.id === originalTuote.id) {
-                const changes = {product: event.target.value, done: 0}
-                const newTuote = {
-                    ...tuote,
+
+    const onProductChange = (product, event) => {
+        const newList = productList.map(originalProduct => {
+            if (product.id === originalProduct.id) {
+                const changes = { product: event.target.value, done: 0 }
+                const newProduct = {
+                    ...product,
                     ...changes,
                 }
+                console.log('changes front', changes)
+                
+                updateProduct(product.id, changes)
 
-                updateProduct(tuote.id, changes)
-
-                return newTuote
+                return newProduct
             } else {
-                return originalTuote
+                return originalProduct
             }
         })
-        setproList(newList)
+        setproductList(newList)
+        setUpdate(false)
     }
 
-    const handleDone = (prodDone) => {
-        const newList = proList.map(prod => {
-            if(prodDone.id === prod.id){
-                const doneProd = {
-                    ...prod,
-                    done : 1
+    const handleDone = (productDone) => {
+        const newList = productList.map(product => {
+            if (productDone.id === product.id) {
+                const doneProduct = {
+                    ...product,
+                    done: 1
                 }
-                updateProduct(prodDone.id, {done: doneProd.done})
-                return doneProd
+                updateProduct(productDone.id, { done: doneProduct.done })
+                return doneProduct
             } else {
-                return prod
+                return product
             }
         })
-        setproList(newList)
-    } 
+        setproductList(newList)
+    }
 
     const alteredListNew = (newProduct) => {
-        const newList = proList.concat(newProduct)
-        return setproList(newList)
+        const newList = productList.concat(newProduct)
+        return setproductList(newList)
     }
 
     const alteredListDel = (deletedId) => {
-        const newList = proList.filter(product => product.id !== deletedId)
-        return setproList(newList)
+        const newList = productList.filter(product => product.id !== deletedId)
+        return setproductList(newList)
     }
 
-    const list = proList.map((product) => (
-        <ListItem key={product.id}>
-            <TextField className="text-field" style={{
-                textDecoration: product.done === 1 ? 'line-through' : 'none',
-            }} defaultValue={product.product} onBlur={(event) => onProductChange(product, event)}></TextField>
-            <ButtonGroup>
-            <Button variant="contained"  size="small" id={product.id} onClick={(event => handleDone(product, event))} startIcon={<CheckIcon/>}  > </Button>
-            <Delete onProductDelete={alteredListDel} id={product.id} />
-            </ButtonGroup>
-        </ListItem>
+    const list = productList.map((product) => (
+        <li key={product.id} >
+            <input  style={{
+                textDecoration: product.done === 1 ? 'line-through' : 'none',  border: update ? 1 : 0
+            }} defaultValue={product.product} onBlur={(event) => onProductChange(product, event)}onClick={()=>setUpdate(true)} ></input>
+            <>
+                <button className="button" variant="contained" size="small" id={product.id} onClick={(event => handleDone(product, event))}>Korissa</button>
+                <Delete onProductDelete={alteredListDel} id={product.id} />
+            </>
+        </li>
     ))
-
-    return (
-        <List>
-            <ul>{list}
-            <ListItem>
-            <AddProduct onProductAdded={alteredListNew} id={id}/>
-            </ListItem>
-            </ul>
-        </List>
+    
+    return (<div className="center">
+        <ul className="list" >
+            {list}
+            <li>
+                <div className="addList">
+                <AddProduct onProductAdded={alteredListNew} id={id} />
+                </div>
+            </li>
+                <button className="button" onClick={()=>nav('/MyLists')}>Takaisin</button>
+        </ul></div>
     )
-    }
+}
 
 export default ListComponent

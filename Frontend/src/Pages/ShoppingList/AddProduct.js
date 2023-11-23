@@ -1,9 +1,5 @@
-import { Fragment, useState } from "react"
+import { useState } from "react"
 import { addNew } from "../../Api/productApi"
-import AddShoppingCarIcon from '@mui/icons-material/AddShoppingCart'
-import {IconButton } from "@mui/material"
-import TextField from "@mui/material/TextField"
-
 
 
 const AddProduct = (props) => {
@@ -15,7 +11,7 @@ const AddProduct = (props) => {
     const lisaa = (event) => {
         if (product === '') {
             alert('Kirjoita tuote')
-            return 
+            return
         } else {
             event.preventDefault()
             addNew(product, props.id).then((result) => {
@@ -26,12 +22,10 @@ const AddProduct = (props) => {
     }
 
     return (
-            <Fragment>
-                <TextField className="input-text-field" id="outlined-basic, margin-dense" label="Lisää" variant="filled"   value={product} onChange={handleInput}></TextField>
-                <IconButton className="button" color='primary' size='large'   onClick={lisaa}>
-                <AddShoppingCarIcon/>
-                </IconButton>
-            </Fragment>
+        <>
+            <input value={product} onChange={handleInput}/>
+            <button className="button"  onClick={lisaa}>+</button>
+        </>
     )
 }
 

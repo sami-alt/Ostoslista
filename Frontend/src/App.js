@@ -1,49 +1,69 @@
+import { Routes, Route } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import ListComponent from "./Pages/ShoppingList/index";
-import  "./style.css";
-import { Routes, Route, Link } from "react-router-dom";
-import Home from "./Pages/Home";
 import LoginPage from "./Pages/Login";
 import MyLists from "./Pages/MyLists";
 import CreateUser from "./Pages/CreateUser";
-import Logout from "./Pages/Logout";
-
-
-
-
-
+import "./style.css";
+import { Button } from "@mui/material";
+import { useState } from "react";
+import { useEffect } from "react";
+import { getMe, logoutUser } from "./Api/userApi"
+import Redirect from "./Redirect";
 
 function App() {
-  return (
-    <div className="app">
-      <nav>
-        <ul>
-          <li>
-          <Link className="list-color" to="/">Kotiin</Link>
-          </li>
-          <li>
-            <Link className="list-color" to="/CreateUser">Luo Käyttäjä</Link>
-          </li>
-          <li>
-            <Link className="list-color" to="/Login">Kirjadu</Link>
-          </li>
-          <li>
-            <Link className="list-color" to="/MyLists">Listat</Link>
-          </li>
-          <li>
-            <Link className="list-color" to="/Logout">Kirjadu ulos</Link>
-          </li>
-        </ul>
-      </nav>
+  const [num, setNum] = useState(1)
+  const [userResult, setUserResult] = useState(null)
 
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/Login" element={<LoginPage/>}/>
-        <Route path="/CreateUser" element={<CreateUser/>}/>
-        <Route path="/ShoppingList/:id" element={<ListComponent/>}/>
-        <Route path="/MyLists" element={<MyLists/>}/>
-        <Route path="/Logout" element={<Logout/>}/>
-      </Routes>
-    </div>
+  const nav = useNavigate();
+  useEffect(() => {
+    getMe().then(response => {
+      setUserResult({loggedIn: true, user: response.data})
+    }).catch((err) => {
+      console.log('loggedout', err)
+      setUserResult({loggedIn: false})
+      nav('/Login')
+    })
+  }, [num])
+
+  const logoutHandle = async () => {
+    await logoutUser()
+    setUserResult({loggedIn: false})
+    nav('/Login')
+  }
+
+  if (!userResult) {
+    return 'Ladataan...'
+  }
+
+  const username = userResult.loggedIn ? userResult.user.name : undefined
+
+
+  return (<>
+      <header>
+        <div></div>
+        <div>Logo</div>
+        <div >
+          <p className="username" >{!username ? '' : username  }</p>
+          {!username ? '' : <Button onClick={logoutHandle} >Kirjadu ulos</Button>}
+        </div>
+      </header>
+      <main>
+        <Routes>
+          <Route path="/CreateUser" element={<CreateUser />} />
+          <Route path="/ShoppingList/:id" element={<ListComponent />} />
+          <Route path="/MyLists" element={<MyLists />} />
+          <Route path="/Login" element={<LoginPage onLogin={() => { setNum(num + 1) }} />} />
+          <Route path="/Logout"  />
+          <Route path="/" element={<Redirect to="/MyLists" />} />
+        </Routes>
+      </main>
+      <footer>
+        <p>samiraiha.fi</p>
+        <p>Samin kauppalista sovellus</p>
+        <p>sami.raiha94@gmail.com</p>
+      </footer>
+      </>
   );
 }
 
