@@ -21,21 +21,26 @@ const LoginPage = (props) => {
         setPassword(event.target.value)
     }
 
-    const loginHandle = async () => {
+    const loginHandle = async (event) => {
+        event.preventDefault()
+        try{
         await loginUser({
             username: userName,
             password
-        })
+        })}catch(err){
+            console.log('login err', err)
+            alert('Väärä käyttäjänimi tai salasana')
+        }
         props.onLogin()
         nav('/MyLists')
     }
 
     return (
-        <Box>
+        <Box component="form" onSubmit={loginHandle}>
             <div className="userForms">
                 <TextField className="input-text-field"  label="käyttäjä" onChange={handleUsername} />
                 <TextField className="input-text-field" type="password" label="Salasana" onChange={handelePassWord} />
-                <Button className="button"  onClick={loginHandle}>Kirjadu</Button>  
+                <Button className="button" type="submit">Kirjadu</Button>  
                 <li>
               <Link className="link" to="/CreateUser" >Luo Käyttäjä</Link>
             </li>          
