@@ -22,10 +22,10 @@ const AddList = (props) => {
     }
 
     return (
-        <div className='addList'>
+        <form onSubmit={add} className='addList'>
                 <input className="input" value={listName} onChange={handleInput} />
-                <button className="button" onClick={add}>Lisää </button>
-        </div>
+                <button className="button" type="submit">Lisää </button>
+        </form>
     )
 }
 

@@ -9,11 +9,11 @@ const AddProduct = (props) => {
     }
 
     const lisaa = (event) => {
+        event.preventDefault()
         if (product === '') {
             alert('Kirjoita tuote')
             return
         } else {
-            event.preventDefault()
             addNew(product, props.id).then((result) => {
                 props.onProductAdded(result.data)
                 setProduct('')
@@ -22,10 +22,10 @@ const AddProduct = (props) => {
     }
 
     return (
-        <>
+        <form onSubmit={lisaa}>
             <input value={product} onChange={handleInput}/>
-            <button className="button"  onClick={lisaa}>+</button>
-        </>
+            <button className="button"  type="submit">+</button>
+        </form>
     )
 }
 

@@ -176,10 +176,6 @@ my lists
 	border-bottom: 1px solid lightblue;
 }
 
-.list li:first-child {
-	
-}
-
 .list li:last-child {
 	margin-bottom: 1rem;
 }
