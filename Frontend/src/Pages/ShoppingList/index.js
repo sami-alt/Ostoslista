@@ -2,14 +2,13 @@ import { getProducts, updateProduct } from "../../Api/productApi"
 import React, { useEffect, useState } from "react"
 import Delete from "./deleteItem"
 import AddProduct from "./AddProduct";
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import "../../style.css"
 
 const ListComponent = () => {
     const [productList, setproductList] = useState([])
     const [update, setUpdate] = useState(false)
     const { id } = useParams()
-    const nav = useNavigate()
 
     useEffect(() => {
         getProducts(id).then((response) => (setproductList(response.data)))
@@ -24,7 +23,7 @@ const ListComponent = () => {
                     ...changes,
                 }
                 console.log('changes front', changes)
-                
+
                 updateProduct(product.id, changes)
 
                 return newProduct
@@ -62,28 +61,38 @@ const ListComponent = () => {
         return setproductList(newList)
     }
 
+    const paddingList = []
+    while (paddingList.length + productList.length < 10) {
+        paddingList.push(<li key={`padding${paddingList.length}`}>
+            <div className='addList'></div>
+        </li>)
+    }
+
     const list = productList.map((product) => (
         <li key={product.id} >
-            <input  style={{
-                textDecoration: product.done === 1 ? 'line-through' : 'none',  border: update ? 1 : 0
-            }} defaultValue={product.product} onBlur={(event) => onProductChange(product, event)}onClick={()=>setUpdate(true)} ></input>
+            <input style={{
+                textDecoration: product.done === 1 ? 'line-through' : 'none', border: update ? 1 : 0
+            }} defaultValue={product.product} onBlur={(event) => onProductChange(product, event)} onClick={() => setUpdate(true)} ></input>
             <>
                 <button className="button" variant="contained" size="small" id={product.id} onClick={(event => handleDone(product, event))}>Korissa</button>
                 <Delete onProductDelete={alteredListDel} id={product.id} />
             </>
         </li>
     ))
-    
+
     return (<div className="center">
-        <ul className="list" >
-            {list}
-            <li>
-                <div className="addList">
-                <AddProduct onProductAdded={alteredListNew} id={id} />
-                </div>
-            </li>
-                <button className="button" onClick={()=>nav('/MyLists')}>Takaisin</button>
-        </ul></div>
+        <div>
+            <ul className="list" >
+                {list}
+                <li>
+                    <div className="addList">
+                        <AddProduct onProductAdded={alteredListNew} id={id} />
+                    </div>
+                </li>
+                {paddingList}
+            </ul>
+        </div>
+    </div>
     )
 }
 

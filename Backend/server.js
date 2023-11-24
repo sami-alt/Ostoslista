@@ -54,10 +54,11 @@ const getUser = async (username) => {
     return user
 }
 
+/*
 const getSession = (id) => {
     return knex.select('token').from('sessions').where('userId', id)
 }
-
+*/
 app.get('/', (req, res) => {
     res.send('Ostoslista')
 })
