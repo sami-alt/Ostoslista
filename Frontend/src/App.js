@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { useNavigate} from "react-router-dom";
 import ListComponent from "./Pages/ShoppingList/index";
 import LoginPage from "./Pages/Login";
@@ -10,10 +10,12 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { getMe, logoutUser } from "./Api/userApi"
 import Redirect from "./Redirect";
+import WestIcon from '@mui/icons-material/West';
 
 function App() {
   const [num, setNum] = useState(1)
   const [userResult, setUserResult] = useState(null)
+  const location = useLocation()
 
   const nav = useNavigate();
   useEffect(() => {
@@ -41,8 +43,8 @@ function App() {
 
   return (<>
       <header>
-        <div></div>
-        <div>Logo</div>
+        <div>{!username ? '' : location.pathname === '/MyLists' ? '' : <Button onClick={()=>{nav('/')}}><WestIcon/></Button>}</div>
+        <div>Ostoslista</div>
         <div >
           <p className="username" >{!username ? '' : username  }</p>
           {!username ? '' : <Button onClick={logoutHandle} >Kirjadu ulos</Button>}

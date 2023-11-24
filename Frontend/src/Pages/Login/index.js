@@ -36,7 +36,7 @@ const LoginPage = (props) => {
     }
 
     return (
-        <Box component="form" onSubmit={loginHandle}>
+        <Box component="form" onSubmit={loginHandle} className="center">
             <div className="userForms">
                 <TextField className="input-text-field"  label="käyttäjä" onChange={handleUsername} />
                 <TextField className="input-text-field" type="password" label="Salasana" onChange={handelePassWord} />

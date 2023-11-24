@@ -22,7 +22,7 @@ const ListComponent = () => {
                     ...product,
                     ...changes,
                 }
-                console.log('changes front', changes)
+                //console.log('changes front', changes)
 
                 updateProduct(product.id, changes)
 

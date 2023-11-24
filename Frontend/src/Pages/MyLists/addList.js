@@ -14,7 +14,7 @@ const AddList = (props) => {
         } else {
             event.preventDefault()
             createList(listName).then((result) => {
-                console.log(listName)
+                //console.log(listName)
                 props.onListAdded(result.data)
             })
             setListName('')

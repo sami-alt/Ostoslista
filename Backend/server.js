@@ -54,11 +54,7 @@ const getUser = async (username) => {
     return user
 }
 
-/*
-const getSession = (id) => {
-    return knex.select('token').from('sessions').where('userId', id)
-}
-*/
+
 app.get('/', (req, res) => {
     res.send('Ostoslista')
 })
@@ -101,7 +97,7 @@ const user = {
     passwordHash: hash
 }
 const createdUser = await knex('users').insert(user).returning('id')
-console.log(user)
+//console.log(user)
 user.id = createdUser[0].id
 res.json(user)
 })
@@ -249,17 +245,17 @@ app.delete('/lista/:id', async (req, res) => {
     const id = Number(req.params.id)
     const list = await getListById(id)
     const isOwnList = list.owner === req.user.id
-    console.log(list,'list')
-    console.log(isOwnList)
+    //(list,'list')
+    //console.log(isOwnList)
     
     
     if (isOwnList) {
-        console.log('isown')
+        
         
         await knex('items').where('listId', id).del()
         await knex('lists').where('id', id).del()
     } else {
-        console.log('else')
+        
         
         await knex('sharedList').where({
             sharedListId: id,
@@ -267,7 +263,7 @@ app.delete('/lista/:id', async (req, res) => {
         }).del()
     }
     res.json({ id })
-    console.log('id',id)
+    //console.log('id',id)
     
 })
 
@@ -281,7 +277,7 @@ app.delete('/shared-list/:listId/:userId', async (req, res) => {
 app.post('/sharelist', async (req, res) => {
     const sharedToListId = Number(req.body.listId)
     const [sharedToUserId] = await knex('users').where('username', req.body.toUserName).select('id')
-    console.log(sharedToUserId, 'aaaa')
+    //console.log(sharedToUserId, 'aaaa')
     try {
         await knex('sharedlist').insert({
             sharedToUserId: sharedToUserId.id,
