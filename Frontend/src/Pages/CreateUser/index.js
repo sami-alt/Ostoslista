@@ -6,7 +6,7 @@ import { newUser, usernameCheck } from "../../Api/userApi"
 import { useNavigate } from "react-router-dom"
 import '../../style.css'
 
-const CreateUser = () => {
+const CreateUser = (props) => {
     const [userName, setUsername] = useState('')
     const [passWord, setPassword] = useState('')
     const [confirm, setConfirm] = useState('')
@@ -54,27 +54,40 @@ const CreateUser = () => {
         if(userName === ''){
             return
         }
-        usernameCheck(userName).then((result) => result ? alert('Käyttäjänimi on varattu, valitse toinen') : setTaken(result))
+        usernameCheck(userName).then((result) =>{
+            console.log(result)
+            if(result.data) {
+                alert('Käyttäjänimi on varattu, valitse toinen')
+             } else {
+                setTaken(result.data)
+             }
+        })
+        
+        
+
     }
     
-    const create = () => {
+    const create = (event) => {
+        event.preventDefault()
         if (confirmUsername() && confirmPassword() && !taken) {
             newUser(userName, passWord).then(() => {
                 console.log(userName, passWord, 'new user and password')
-                nav('/')
+                nav('/Login')
             }) 
         } else{
-        alert('Käyttäjää ei luotu!')
+            alert('Käyttäjää ei luotu!')
+            return
         }
+
     }
 
     return (
-        <Box component="form" type="submit" >
+        <Box component="form"  onSubmit={create} >
             <div className="userForms">
                 <TextField label="Käyttäjä" className="input-text-field" onChange={handleUser} onBlur={notTaken} ></TextField>
                 <TextField type="password" label="Salasana" className="input-text-field" onChange={handelePassWord} ></TextField>
                 <TextField type="password" label="Salasana" className="input-text-field" onChange={handleConfirm} ></TextField>
-                <Button className="button" onClick={create}> Luo käyttäjä</Button>
+                <Button className="button" type="submit"> Luo käyttäjä</Button>
                 <Button className="button" onClick={()=> nav('/Login')}>Takaisin</Button>
             </div>
         </Box>
