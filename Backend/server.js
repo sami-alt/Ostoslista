@@ -249,8 +249,7 @@ app.delete('/lista/:id', async (req, res) => {
     const id = Number(req.params.id)
     const list = await getListById(id)
     const isOwnList = list.owner === req.user.id
-    console.log(list,'list')
-    console.log(isOwnList)
+   
     
     
     if (isOwnList) {
