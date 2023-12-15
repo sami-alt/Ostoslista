@@ -1,3 +1,18 @@
-version: 'version'
+version: '3.8'
 
 services:
+  frontend:
+    build: ./Frontend
+    command: npx http-server build --port 3000
+    env_file:
+      - Frontend/.env.development
+    ports:
+      - 3000:3000
+ 
+  backend:
+    build: ./Backend
+    command: npm run start
+    volumes:
+      - ./Backend/list.db:/list.db:z
+    ports:
+      - 3001:3001

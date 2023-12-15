@@ -8,7 +8,7 @@ const ShareList = (props) => {
     const [shareTo, setShareTo] = useState('')
     const [open, setOpen] = useState(false)
     const userId = props.id
-    console.log(userId)
+    //console.log(userId)
 
     const handleOpen = () => {
         setOpen(true)

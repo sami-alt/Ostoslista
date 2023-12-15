@@ -10,7 +10,7 @@ const bcrypt = require('bcryptjs')
 const knex = require('knex')({
     client: 'better-sqlite3',
     connection: {
-        filename: "./list.db"
+        filename: process.env.DB_PATH || "./list.db"
     }
 });
 
