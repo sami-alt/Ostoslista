@@ -19,7 +19,7 @@ const MyLists = () => {
     }
 
     const removeList = (removedId) => {
-        console.log('remove list', removedId)
+        //console.log('remove list', removedId)
         const newList = allLists.filter(list => list.id !== removedId)
         return setAllLists(newList)
     }

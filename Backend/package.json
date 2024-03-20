@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "npx knex migrate:latest",
     "start": "node server.js",
     "watch": "nodemon --ignore '*.json' server.js"
   },

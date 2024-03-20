@@ -55,7 +55,7 @@ const CreateUser = (props) => {
             return
         }
         usernameCheck(userName).then((result) =>{
-            console.log(result)
+            //console.log(result)
             if(result.data) {
                 alert('Käyttäjänimi on varattu, valitse toinen')
              } else {
@@ -63,26 +63,23 @@ const CreateUser = (props) => {
              }
         })
         
-        
-
     }
     
     const create = (event) => {
         event.preventDefault()
         if (confirmUsername() && confirmPassword() && !taken) {
             newUser(userName, passWord).then(() => {
-                console.log(userName, passWord, 'new user and password')
+                //console.log(userName, passWord, 'new user and password')
                 nav('/Login')
             }) 
         } else{
             alert('Käyttäjää ei luotu!')
             return
         }
-
     }
 
     return (
-        <Box component="form"  onSubmit={create} >
+        <Box component="form"  onSubmit={create} className="center" >
             <div className="userForms">
                 <TextField label="Käyttäjä" className="input-text-field" onChange={handleUser} onBlur={notTaken} ></TextField>
                 <TextField type="password" label="Salasana" className="input-text-field" onChange={handelePassWord} ></TextField>
