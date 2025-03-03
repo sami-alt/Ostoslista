@@ -245,14 +245,7 @@ app.delete('/lista/:id', async (req, res) => {
     const id = Number(req.params.id)
     const list = await getListById(id)
     const isOwnList = list.owner === req.user.id
-<<<<<<< HEAD
    
-=======
-    //(list,'list')
-    //console.log(isOwnList)
->>>>>>> d011336ae2566fa16ae884f6e93f0db1a4ec598c
-    
-    
     if (isOwnList) {
         
         
